@@ -1,0 +1,32 @@
+{
+  "name": "psifous",
+  "version": "1.0.0",
+  "description": "Voting Decentralized App based on Ethereum Blockchain",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psifous/Psifous.git"
+  },
+  "author": "Dwiky Erlangga <dwikyerl@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/psifous/Psifous/issues"
+  },
+  "homepage": "https://github.com/psifous/Psifous#readme",
+  "dependencies": {
+    "fs-extra": "^7.0.0",
+    "next": "^6.1.1",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "solc": "^0.4.24",
+    "truffle-hdwallet-provider": "0.0.5",
+    "web3": "^1.0.0-beta.35"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  }
+}
