@@ -7,6 +7,10 @@ contract ElectionFactory {
         address newElection = new Election(msg.sender);
         deployedElections.push(newElection);
     }
+
+    function getDeployedElections() public view returns (address[]) {
+        return deployedElections;
+    }
 }
 
 contract Election {
@@ -36,7 +40,7 @@ contract Election {
         votersCount++;
     }
     
-    function createCandidate(string name) public restricted {
+    function addCandidate(string name) public restricted {
         Candidate memory newCandidate = Candidate({
             name: name,
             voteCount: 0
