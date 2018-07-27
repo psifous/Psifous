@@ -4,7 +4,8 @@
   "description": "Voting Decentralized App based on Ethereum Blockchain",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --no-warnings"
+    "test": "mocha --no-warnings",
+    "dev": "next dev"
   },
   "repository": {
     "type": "git",
