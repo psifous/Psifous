@@ -1,11 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
-export default class index extends Component {
+class Home extends React.Component {
+
   render() {
     return (
-      <div>
-        <h1>Welcome to vote app</h1>
-      </div>
+        <div>
+          <h1>Index {JSON.stringify(this.props)}</h1>
+        </div>
     );
   }
 }
+
+const mapStateToprops = state => {
+  return {
+    isLogin: state.auth
+  }
+}
+export default connect(mapStateToprops, null)(Home);

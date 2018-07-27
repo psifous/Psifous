@@ -1,0 +1,7 @@
+const DRAWER_OPEN = 'DRAWER_OPEN';
+const DRAWER_CLOSE = 'DRAWER_CLOSE';
+
+module.exports = {
+  DRAWER_OPEN,
+  DRAWER_CLOSE
+};
