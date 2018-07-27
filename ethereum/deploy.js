@@ -1,11 +1,13 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const Web3 = require('web3');
 
-const compiledFactory = require('./build/CampaignFactory.json');
+const compiledFactory = require('./build/ElectionFactory.json');
 
 const provider = new HDWalletProvider(
-  'mushroom exist flag torch clip cement tortoise pen assault robust multiply unique',
-  'https://rinkeby.infura.io/v3/0c042362a74d45a8926a5cd007bd323c'
+  process.env.WORD_SEED,
+  process.env.INFURA_URL
 );
 
 const web3 = new Web3(provider);
