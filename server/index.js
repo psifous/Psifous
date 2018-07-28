@@ -38,8 +38,9 @@ app.prepare()
     server.use('/api/login', loginRouter)
     
 
-    server.get('*',(req,res)=>{
-      return handle(req,res);
+
+    server.get('*',(req, res)=>{
+      return handle(req, res);
     });
 
     server.listen(PORT,(err) =>{
