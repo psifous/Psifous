@@ -62,8 +62,9 @@ module.exports ={
   },
 
   updateElection : (req,res)=>{
-    db.Elections.update(req.body,{where:{id:req.params.id}})
+    db.Election.update(req.body,{where:{id:req.params.id}})
     .then((value)=>{
+      console.log('masuk then',value)
       res.status(200).json({
         message:'berhasil update election',
         value

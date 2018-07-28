@@ -2,13 +2,11 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const expect = chai.expect
 const request = require('request')
-const index = require('../server/index')
 const should = chai.should()
 const db = require('../server/models')
 chai.use(chaiHttp)
 
 describe('TESTING USER', () => {
-  console.log(index)
     const dummyData = {
       email: 'test75@email.com',
       first_name: 'test',
@@ -20,8 +18,8 @@ describe('TESTING USER', () => {
 
   it('should register user', function(done){
     chai
-    .request(index)
-    .post('api/users/')
+    .request('http://localhost:3000')
+    .post('/api/users/')
     .send(dummyData)
     .end((err, res) => {
       let data = res.body
@@ -41,8 +39,8 @@ describe('TESTING USER', () => {
   it('should get data user',function(done){
     this.timeout(8000)
     chai
-      .request(index)
-      .get('api/users/1')
+      .request('http://localhost:3000')
+      .get('/api/users/1')
       .end((err,res)=>{
         let data = res.body
         expect(res).to.have.status(200)
@@ -60,11 +58,11 @@ describe('TESTING USER', () => {
   it('should get all data user', function(done){
     this.timeout(8000)
     chai
-      .request(index)
-      .get('api/users/')
+      .request('http://localhost:3000')
+      .get('/api/users/')
       .end((err,res)=>{
-        let data = res.body
         expect(res).to.have.status(200)
+        let data = res.body
         data.should.have.property('message').equal('kirim semua data')
         res.body.should.have.property('value')
         done()
@@ -74,8 +72,8 @@ describe('TESTING USER', () => {
   it('should edit an user data', function(done){
     this.timeout(8000)
     chai  
-      .request(index)
-      .put(`api/users/10`)
+      .request('http://localhost:3000')
+      .put(`/api/users/10`)
       .send({
         last_name: 'aliong',
       })
@@ -89,8 +87,8 @@ describe('TESTING USER', () => {
   it('should delete an user', function(done){
     this.timeout(8000)
     chai  
-      .request(index)
-      .delete(`api/users/10`)
+      .request('http://localhost:3000')
+      .delete(`/api/users/10`)
       .end(function(err, res){
         expect(res).to.have.status(200)
         res.body.should.have.property('message').equal('berhasil delete data')

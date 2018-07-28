@@ -6,7 +6,8 @@ module.exports={
       name: req.body.name,
       location:req.body.location,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      AdminId: req.body.AdminId
     })
     .then((value)=>{
       res.status(200).json({
