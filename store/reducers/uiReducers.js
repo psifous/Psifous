@@ -1,22 +1,22 @@
 import * as actionTypes from '../actions/ui/actionTypes';
 
 let initialState = {
-  open: false
+  visible: false
 };
 
 const uiReducers = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.DRAWER_OPEN :
+    case actionTypes.SIDEBAR_HANDLE :
       state = {
         ...state,
-        open: true
+        visible: !state.visible
       };
       return state;
 
-    case actionTypes.DRAWER_CLOSE :
+    case actionTypes.SIDEBAR_CLOSE :
       state = {
         ...state,
-        open: false
+        visible: false
       };
       return state;
 

@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/auth/actionTypes';
 
 let initialState = {
   userData: {},
-  isLogin: false,
+  isLogin: true,
   isAdmin: false,
   isLoading: false,
   error: {

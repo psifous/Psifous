@@ -1,28 +1,28 @@
 import {
-  DRAWER_OPEN,
-  DRAWER_CLOSE
+  SIDEBAR_HANDLE,
+  SIDEBAR_CLOSE
 } from './actionTypes';
 
-export const drawerOpen = () => {
+export const sidebarOpen = () => {
   return {
-    type: DRAWER_OPEN
+    type: SIDEBAR_HANDLE
   }
 };
 
-export const drawerClose = () => {
+export const sidebarClose = () => {
   return {
-    type: DRAWER_CLOSE
+    type: SIDEBAR_CLOSE
   }
 };
 
-export const openDrawer = () => {
+export const visibleSidebar = () => {
   return (dispatch) => {
-    dispatch(drawerOpen())    
+    dispatch(sidebarOpen())    
   };
 };
 
-export const closeDrawer = () => {
+export const hiddenSidebar = () => {
   return (dispatch) => {
-    dispatch(drawerClose())    
+    dispatch(sidebarClose())    
   };
 };
