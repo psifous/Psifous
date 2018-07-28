@@ -6,7 +6,7 @@ module.exports = {
       email : req.body.email,
       first_name : req.body.first_name,
       last_name:req.body.last_name,
-      password : req.body.password
+      password : req.body.passwords
     })
     .then((value)=>{
       res.status(200).json({
@@ -16,7 +16,7 @@ module.exports = {
     })
     .catch((err)=>{
       res.status(400).json({
-        message: 'terjadi kesalahan saat membuat user'
+        message: 'email sudah terdaftar'
       })
     })
   },

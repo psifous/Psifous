@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var { register, getAllUser,getUserById,editData,deleteData } = require('../controller/userController')
+const express = require('express');
+const router = express.Router();
+const { register, getAllUser,getUserById,editData,deleteData } = require('../controller/userController')
+const { checkUser } = require('../middleware/checkRegister')
 
 /* GET users listing. */
-router.post('/', register);
+router.post('/', checkUser ,register);
 router.get('/',getAllUser);
 router.get('/:id',getUserById)
 router.put('/:id',editData)
