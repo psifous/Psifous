@@ -36,8 +36,8 @@ app.prepare()
     server.use('/api/admins', adminRouter)
     
 
-    server.get('*',(req,res)=>{
-      return handle(req.res);
+    server.get('*',(req, res)=>{
+      return handle(req, res);
     });
 
     server.listen(PORT,(err) =>{
