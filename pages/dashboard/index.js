@@ -55,7 +55,9 @@ class Dashboard extends Component {
         <Grid columns={1}>
           {this.props.elections.map(election => (
             <Grid.Row key={election.id}>
-              <ElectionCard {...election} />
+              <Grid.Column>
+                <ElectionCard {...election} />
+              </Grid.Column>
             </Grid.Row>
           ))}
         </Grid>
