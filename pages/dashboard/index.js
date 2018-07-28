@@ -59,11 +59,6 @@ class Dashboard extends Component {
             </Grid.Row>
           ))}
         </Grid>
-        <style jsx>{`
-          h1 {
-            color: blue;
-          }
-        `}</style>
       </Layout>
     );
   }
