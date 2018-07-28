@@ -22,7 +22,7 @@ class Header extends Component {
     return (
       <Menu stackable>
         <Menu.Item
-          name='editorials'
+          name="editorials"
           active={activeItem === 'editorials'}
           onClick={isLogin ? this.openSidebar : this.goTohome}
         >
@@ -46,7 +46,7 @@ class Header extends Component {
           </Menu.Item>
 
           <Menu.Item
-            name='upcomingEvents'
+            name="upcomingEvents"
             active={activeItem === 'upcomingEvents'}
             onClick={this.handleItemClick}
           >
@@ -56,7 +56,7 @@ class Header extends Component {
           </Menu.Item>
         </Menu.Menu>
       </Menu>
-    )
+    );
   }
 }
 
