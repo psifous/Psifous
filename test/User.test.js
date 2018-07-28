@@ -2,12 +2,13 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const expect = chai.expect
 const request = require('request')
-const app = require('../server/index')
+const index = require('../server/index')
 const should = chai.should()
 const db = require('../server/models')
 chai.use(chaiHttp)
 
 describe('TESTING USER', () => {
+  console.log(index)
     const dummyData = {
       email: 'test75@email.com',
       first_name: 'test',
@@ -19,8 +20,8 @@ describe('TESTING USER', () => {
 
   it('should register user', function(done){
     chai
-    .request(app)
-    .post('/users/')
+    .request(index)
+    .post('api/users/')
     .send(dummyData)
     .end((err, res) => {
       let data = res.body
@@ -40,8 +41,8 @@ describe('TESTING USER', () => {
   it('should get data user',function(done){
     this.timeout(8000)
     chai
-      .request(app)
-      .get('/users/1')
+      .request(index)
+      .get('api/users/1')
       .end((err,res)=>{
         let data = res.body
         expect(res).to.have.status(200)
@@ -59,8 +60,8 @@ describe('TESTING USER', () => {
   it('should get all data user', function(done){
     this.timeout(8000)
     chai
-      .request(app)
-      .get('/users/')
+      .request(index)
+      .get('api/users/')
       .end((err,res)=>{
         let data = res.body
         expect(res).to.have.status(200)
@@ -73,8 +74,8 @@ describe('TESTING USER', () => {
   it('should edit an user data', function(done){
     this.timeout(8000)
     chai  
-      .request(app)
-      .put(`/users/10`)
+      .request(index)
+      .put(`api/users/10`)
       .send({
         last_name: 'aliong',
       })
@@ -88,8 +89,8 @@ describe('TESTING USER', () => {
   it('should delete an user', function(done){
     this.timeout(8000)
     chai  
-      .request(app)
-      .delete(`/10`)
+      .request(index)
+      .delete(`api/users/10`)
       .end(function(err, res){
         expect(res).to.have.status(200)
         res.body.should.have.property('message').equal('berhasil delete data')
