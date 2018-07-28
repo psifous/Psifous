@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { Button, Checkbox, Form, Segment, Grid } from 'semantic-ui-react';
 
 import Layout from '../../components/Layout/Layout';
+import Communities from '../../components/Communities/Communities';
 
-class Register extends React.Component {
+class HomePage extends React.Component {
 
   render() {
     return (
       <Layout>
-        <h1>ada di home user</h1>
+        <Communities/>
       </Layout>
     );
   }
@@ -21,4 +22,4 @@ const mapStateToprops = state => {
     isLogin: state.auth
   }
 }
-export default connect(mapStateToprops, null)(Register);
+export default connect(mapStateToprops, null)(HomePage);
