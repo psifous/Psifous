@@ -192,5 +192,6 @@ blockchain/history
 !.vscode/launch.json
 !.vscode/extensions.json
 
+ecommerce-hacktiv-4870e897fd7f.json
 
 # End of https://www.gitignore.io/api/node,linux,macos,solidity,virtualenv,soliditytruffle,visualstudiocode
