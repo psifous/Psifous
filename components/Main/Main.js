@@ -7,9 +7,19 @@ class Main extends React.Component {
 
   render() {
     return (
-      <Container Fluid>
-        <h1>Test</h1>
-      </Container>
+      <React.Fragment>
+        <Container fluid>
+          <h1>Vote securely, transparent, and easy</h1>
+        </Container>
+
+        <style jsx>
+          {`
+            h1, a {
+              color: teal;
+            }
+          `}
+        </style>
+      </React.Fragment>
     );
   }
 }

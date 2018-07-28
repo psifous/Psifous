@@ -10,7 +10,22 @@ class Register extends React.Component {
   render() {
     return (
       <Layout>
-        <h1>ada di home user</h1>
+        <Grid centered columns={2}>
+          <Grid.Column textAlign='center'>
+            <h1>Choose your primary use</h1>
+            <Link href="/register/voter">
+              <Button>
+                Voter
+              </Button>
+            </Link>
+
+            <Link href="/register/organizer">
+              <Button>
+               Organizer
+              </Button>
+            </Link>
+          </Grid.Column>
+        </Grid>
       </Layout>
     );
   }
