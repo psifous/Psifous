@@ -6,6 +6,30 @@ import Link from 'next/link';
 import Layout from '../../components/Layout/Layout';
 
 class OrganizerRegister extends React.Component {
+  state = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    communityName: '',
+    communityLocation: ''
+  }
+  
+  handleChange = prop => event => {
+    this.setState({ [prop]: event.target.value });
+  };
+
+  registerUser = (event) => {
+    let {firstName, lastName, email, password } = this.state 
+    const newUser = {firstName, lastName, email, password }
+    axios.post('/api/admins/', newUser)
+      .then((user) => {
+        Router.push('/home')
+      })
+      .catch( err => {
+        console.log(err.response)
+      })
+  }
 
   render() {
     return (
@@ -19,18 +43,18 @@ class OrganizerRegister extends React.Component {
               <Form size='large'>
                 <Segment stacked textAlign='left'>
                   <Form.Group widths='equal'>
-                    <Form.Field control={Input} label='First name' placeholder='First name' />
-                    <Form.Field control={Input} label='Last name' placeholder='Last name' />
+                    <Form.Field control={Input} label='First name' placeholder='First name' onClick={this.handleChange('firstName')} />
+                    <Form.Field control={Input} label='Last name' placeholder='Last name' onClick={this.handleChange('lastName')} />
                   </Form.Group>
 
-                  <Form.Input label='Email' type='email' placeholder='enter email' />
-                  <Form.Input label='Password' type='password' placeholder='enter password' />
-                  <Form.Field control={Input} label='Community Name' placeholder='First name' />
-                  <Form.Field control={Input} label='Community location' placeholder='First name' />
+                  <Form.Input label='Email' type='email' placeholder='enter email' onClick={this.handleChange('email')} />
+                  <Form.Input label='Password' type='password' placeholder='enter password' onClick={this.handleChange('password')} />
+                  <Form.Field control={Input} label='Community Name' placeholder='Community Name' onClick={this.handleChange('communityName')} />
+                  <Form.Field control={Input} label='Community location' placeholder='Comunity Location' onClick={this.handleChange('communityLocation')} />
                   <Form.Checkbox label='I agree to the Terms and Conditions' />
 
                   <Button color='teal' fluid size='large'>
-                    Login
+                    Register
                   </Button>
                 </Segment>
               </Form>
