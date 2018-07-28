@@ -19,6 +19,7 @@ app.prepare()
     const communityRouter = require('./routes/communities')
     const conjunctionRouter = require('./routes/conjunction')
     const adminRouter = require('./routes/admins')
+    const loginRouter = require('./routes/login')
 
 
     server.use(cors())
@@ -34,10 +35,11 @@ app.prepare()
     server.use('/api/communities' , communityRouter)
     server.use('/api/conjunctions' , conjunctionRouter)
     server.use('/api/admins', adminRouter)
+    server.use('/api/login', loginRouter)
     
 
     server.get('*',(req,res)=>{
-      return handle(req.res);
+      return handle(req,res);
     });
 
     server.listen(PORT,(err) =>{

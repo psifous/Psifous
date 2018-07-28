@@ -11,13 +11,13 @@ module.exports = {
     })
     .then((value)=>{
       res.status(200).json({
-        message: ' berhasil buat user baru',
+        message: ' berhasil buat admin baru',
         value
       })
     })
     .catch((err)=>{
       res.status(400).json({
-        message: 'terjadi kesalahan saat membuat user'
+        message: 'email sudah terdaftar'
       })
     })
   },
