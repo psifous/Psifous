@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Layout from '../components/Layout/Layout';
+
 class Home extends React.Component {
 
   render() {
     return (
         <div>
-          <h1>Index {JSON.stringify(this.props)}</h1>
+          <Layout/>
         </div>
     );
   }

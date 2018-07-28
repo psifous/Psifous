@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --no-warnings",
-    "dev": "nodemon server/index.js"
+    "dev": "next dev",
+    "server": "node server/index.js"
   },
   "repository": {
     "type": "git",
@@ -20,10 +21,7 @@
   "dependencies": {
     "@google-cloud/storage": "^1.7.0",
     "bcryptjs": "^2.4.3",
-    "chai-http": "^4.0.0",
     "cors": "^2.8.4",
-    "@material-ui/core": "^1.4.1",
-    "@material-ui/icons": "^2.0.0",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "fs-extra": "^7.0.0",
@@ -34,15 +32,15 @@
     "pg": "^7.4.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "request": "^2.87.0",
-    "sequelize": "^4.38.0",
-    "sequelize-cli": "^4.0.0",
     "react-redux": "^5.0.7",
     "recompose": "^0.27.1",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "semantic-ui-react": "^0.82.1",
+    "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.0.0",
     "solc": "^0.4.24",
     "truffle-hdwallet-provider": "0.0.5",
     "web3": "^1.0.0-beta.35"
@@ -50,6 +48,8 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "ganache-cli": "^6.1.6",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "chai-http": "^4.0.0",
+    "request": "^2.87.0"
   }
 }
