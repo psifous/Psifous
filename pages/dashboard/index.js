@@ -48,7 +48,7 @@ class Dashboard extends Component {
   render() {
     return (
       <Layout>
-        <Link href="dashboard/elections/new">
+        <Link href="dashboard/elections/add">
           <Button icon="add" content="Add new election" primary />
         </Link>
         <Header as="h2">New Elections</Header>

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/psifous/Psifous#readme",
   "dependencies": {
     "@google-cloud/storage": "^1.7.0",
+    "@zeit/next-css": "^0.2.0",
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.4",
@@ -34,6 +35,8 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",
+    "react-widgets": "^4.4.3",
+    "react-widgets-moment": "^4.0.19",
     "recompose": "^0.27.1",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
