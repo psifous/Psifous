@@ -1,97 +1,103 @@
 const db = require('../models')
 
 module.exports={
-  createCommunity : (req,res)=>{
-    db.Community.create({
-      name: req.body.name,
-      location:req.body.location,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      AdminId: req.body.AdminId
-    })
-    .then((value)=>{
-      res.status(200).json({
+  createCommunity : async (req,res) => {
+    
+    try {
+      let newCommunity = {
+        name: req.body.name,
+        location:req.body.location,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        AdminId: req.body.AdminId
+      }
+      let value = await db.Community.create(newCommunity)
+      
+      res.status(201).json({
         message:'berhasil create komunitas',
         value
       })
-    })
-    .catch((err)=>{
+
+    } catch (err) {
       res.status(400).json({
         message:'gagal create komunitas',
         err
       })
-    })
+    }
   },
-  getOneCommunity : (req,res)=>{
-    db.Community.find({
-      where:{
-        id : req.params.id
-      },
-      include:[
-        db.Election,
-        db.User,
-        db.Admin
-      ]
-    })
-    .then((value)=>{
+
+  getOneCommunity : async (req,res) => {
+    try {
+      let value = await db.Community.find({
+        where:{
+          id : req.params.id
+        },
+        include:[
+          db.Election,
+          db.User,
+          db.Admin
+        ]
+      })
       res.status(200).json({
         message:'berhasil kirim data satu komunitas',
         value
       })
-    })
-    .catch((err)=>{
+
+    } catch (err) {
       res.status(400).json({
         message:'terjadi kesalahan',
         err
       })
-    })
+    }
   },
-  getCommunityData :(req,res)=>{
-    db.Community.findAll()
-    .then((value)=>{
+
+  getCommunityData : async (req,res) => {
+    try {
+      let value = await db.Community.findAll()
       res.status(200).json({
-        message:'berhasil kirim data komunitas',
+        message:'berhasil mendapat daftar komunitas',
         value
       })
-    })
-    .catch((err)=>{
+
+    } catch (err) {
       res.status(400).json({
-        message:'gagal kirim data komunitas',
+        message:'gagal mendapat daftar komunitas',
         err
       })
-    })
+    }
   },
-  deleteData :(req,res)=>{
-    db.Community.destroy({
-      where:{
-        id:req.params.id
-      }
-    })
-    .then((value)=>{
-      res.status(200).json({
-        message:'berhasil delete komunitas'
+
+  deleteData : async (req,res) => {
+    try {
+      let value = await db.Community.destroy({
+        where:{
+          id:req.params.id
+        }
       })
-    })
-    .catch((err)=>{
+      res.status(200).json({
+        message:'berhasil delete komunitas',
+        value
+      })
+    } catch (err) {
       res.status(400).json({
         message:'gagal delete',
         err
       })
-    })
+    }
   },
-  updateData:(req,res)=>{
-    db.Community.update(req.body,{where:{id:req.params.id}})
-    .then((value)=>{
-      res.status(200).json({
-        message:'berhasil update komunitas',
-        value
-      })
-    })
-    .catch((err)=>{
+
+  updateData: async (req,res) => {
+    try {
+     let value = await db.Community.update(req.body,{where:{id:req.params.id}})
+     res.status(200).json({
+       message:'berhasil update komunitas',
+       value
+     })
+    } catch (err) {
       res.status(400).json({
         message:'gagal update',
         err
       })
-    })
+    }
   }
 }
