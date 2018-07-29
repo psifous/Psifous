@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Icon, Button } from 'semantic-ui-react';
-import Link from 'next/link';
+import { Link } from '../../routes';
 import moment from 'moment';
 
 class ElectionCard extends Component {
@@ -12,7 +12,7 @@ class ElectionCard extends Component {
       'MMMM Do YYYY, h:mm:ss a'
     );
     return (
-      <Link href={`/dashboard/elections/${this.props.blockchainAddress}`}>
+      <Link route="electionAdmin" params={{ address: this.props.id }} prefetch>
         <Card fluid onClick={this.props.onClick}>
           <Card.Content>
             <Button
@@ -22,7 +22,7 @@ class ElectionCard extends Component {
               color="red"
               content="Delete"
             />
-            <Link href="/home/communities/election">
+            <Link route="/home/communities/election">
               <Button
                 id="vote-button"
                 floated="right"

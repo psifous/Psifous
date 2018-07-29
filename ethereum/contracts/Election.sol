@@ -16,6 +16,7 @@ contract ElectionFactory {
 contract Election {
     
     struct Candidate {
+        uint id;
         string name;
         uint voteCount;
     }
@@ -40,8 +41,9 @@ contract Election {
         votersCount++;
     }
     
-    function addCandidate(string name) public restricted {
+    function addCandidate(uint id, string name) public restricted {
         Candidate memory newCandidate = Candidate({
+            id: id,
             name: name,
             voteCount: 0
         });

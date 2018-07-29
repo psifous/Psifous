@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, Sidebar, Icon } from 'semantic-ui-react';
 import { componentFromProp } from 'recompose';
-import Link from 'next/link';
-import Router from 'next/router';
+import { Link, Router } from './../../routes';
 import { connect } from 'react-redux';
 
 import { hiddenSidebar } from '../../store/actions/ui/uiActions';
@@ -31,10 +30,12 @@ class SidebarComponent extends Component {
         visible={visible}
         width="thin"
       >
-        <Menu.Item as="a">
-          <Icon name="home" />
-          Home
-        </Menu.Item>
+        <Link href="/dashboard">
+          <Menu.Item as="a">
+            <Icon name="home" />
+            Home
+          </Menu.Item>
+        </Link>
         <Menu.Item as="a" onClick={this.onLogout}>
           <Icon name="sign out alternate" />
           Logout

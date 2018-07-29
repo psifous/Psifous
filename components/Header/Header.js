@@ -22,13 +22,11 @@ class Header extends Component {
     return (
       <Menu stackable>
         <Menu.Item
-          name="editorials"
-          active={activeItem === 'editorials'}
+          name="psifous"
+          active={activeItem === 'psifous'}
           onClick={isLogin ? this.openSidebar : this.goTohome}
         >
-          <Link href="/">
-            <Image src="/static/img/logo.png" size="mini" />
-          </Link>
+          <Image src="/static/img/logo.png" size="mini" />
         </Menu.Item>
 
         <Menu.Menu position="right">

@@ -7,8 +7,8 @@ export default props => {
       <Card
         image={props.candidate.image}
         header={props.candidate.name}
-        meta="Friend"
-        description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
+        meta={props.candidate.index}
+        description={props.candidate.description}
         style={{ margin: '0 auto' }}
       />
     </Grid.Column>

@@ -4,9 +4,10 @@ const cors = require('cors');
 const next = require('next');
 
 const PORT = process.env.port || 3000;
+const routes = require('../routes');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
-const handle = app.getRequestHandler();
+const handler = routes.getRequestHandler(app);
 
 app
   .prepare()
@@ -41,12 +42,8 @@ app
 
     // })
 
-    server.get('/dashboard', (req, res) => {
-      return app.render(req, res, '/dashboard', { test: 'test' });
-    });
-
     server.get('*', (req, res) => {
-      return handle(req, res);
+      return handler(req, res);
     });
 
     server.listen(PORT, err => {
