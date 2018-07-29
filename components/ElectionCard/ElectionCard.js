@@ -22,6 +22,15 @@ class ElectionCard extends Component {
               color="red"
               content="Delete"
             />
+            <Link href='/home/communities/election'>
+              <Button
+                id="vote-button"
+                floated="right"
+                icon="list alternate"
+                color="blue"
+                content="Detail Election"
+              />
+            </Link>
             <Card.Header>{this.props.name}</Card.Header>
             <Card.Meta>
               <strong>Start Date:</strong>
