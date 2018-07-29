@@ -22,7 +22,7 @@ class ElectionCard extends Component {
               color="red"
               content="Delete"
             />
-            <Link href='/home/communities/election'>
+            <Link href="/home/communities/election">
               <Button
                 id="vote-button"
                 floated="right"
