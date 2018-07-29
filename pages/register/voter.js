@@ -33,7 +33,6 @@ class VoterRegister extends React.Component {
 
   render() {
 
-
     return (
       <Layout>
         <div>
@@ -53,7 +52,7 @@ class VoterRegister extends React.Component {
                   <Form.Input label='Password' type='password' placeholder='enter password' onChange={this.handleChange('password')} />
 
                   <Button color='teal' fluid size='large' onClick={this.registerUser}>
-                    Login
+                    Register
                   </Button>
                 </Segment>
               </Form>

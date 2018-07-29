@@ -1,10 +1,11 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "w12",
-    "database": "psifos",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "username": "yhhltlbn",
+    "password": "lSyzakqE90AjxRqYfBBkYrE1B3sO_vKJ",
+    "database": "yhhltlbn",
+    "host": "stampy.db.elephantsql.com",
+    "dialect": "postgres",
+    "port": 5432
   },
   "test": {
     "username": "root",
