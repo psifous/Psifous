@@ -83,6 +83,7 @@ class ElectionNew extends Component {
           <Form.Field>
             <label>Description</label>
             <TextArea
+              autoHeight
               value={this.state.description}
               onChange={e => this.setState({ description: e.target.value })}
               rows={2}
