@@ -13,7 +13,7 @@ let initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.LOGIN_FAILED :
+    case actionTypes.LOGIN_FAILED:
       state = {
         ...state,
         isLoading: false,
@@ -24,7 +24,7 @@ const authReducer = (state = initialState, action) => {
       };
       return state;
 
-    case actionTypes.LOGIN_SUCCESS :
+    case actionTypes.LOGIN_SUCCESS:
       state = {
         ...state,
         userData: action.payload,
@@ -33,16 +33,16 @@ const authReducer = (state = initialState, action) => {
       };
       return state;
 
-    case actionTypes.LOGIN_LOAD :
+    case actionTypes.LOGIN_LOAD:
       state = {
         ...state,
         isLoading: true
       };
       return state;
 
-// ========== REGISTER USER ========== 
+    // ========== REGISTER USER ==========
 
-    case actionTypes.REGISTER_FAILED :
+    case actionTypes.REGISTER_FAILED:
       state = {
         ...state,
         isLoading: false,
@@ -53,7 +53,7 @@ const authReducer = (state = initialState, action) => {
       };
       return state;
 
-    case actionTypes.REGISTER_SUCCESS :
+    case actionTypes.REGISTER_SUCCESS:
       state = {
         ...state,
         userData: action.payload,
@@ -62,33 +62,33 @@ const authReducer = (state = initialState, action) => {
       };
       return state;
 
-    case actionTypes.REGISTER_LOAD :
+    case actionTypes.REGISTER_LOAD:
       state = {
         ...state,
         isLoading: true
       };
       return state;
 
-// ========== LOGOUT USER ========== 
+    // ========== LOGOUT USER ==========
 
-    case actionTypes.LOGOUT_LOAD :
-    state = {
-      ...state,
-      isLoading: true
-    };
-    return state;
+    case actionTypes.LOGOUT_LOAD:
+      state = {
+        ...state,
+        isLoading: true
+      };
+      return state;
 
-  case actionTypes.LOGOUT_SUCCESS :
-    state = {
-      ...state,
-      isLoading: false,
-      isLogin: false
-    };
-    return state;
+    case actionTypes.LOGOUT_SUCCESS:
+      state = {
+        ...state,
+        isLoading: false,
+        isLogin: false
+      };
+      return state;
 
-    default :
+    default:
       return state;
   }
 };
 
-export default authReducer
+export default authReducer;

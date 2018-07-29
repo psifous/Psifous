@@ -8,12 +8,6 @@ import { connect } from 'react-redux';
 import { visibleSidebar } from '../../store/actions/ui/uiActions';
 
 class Header extends Component {
-  static async getInitialProps() {
-    return {
-      isLogin: ctx.authtoken !== null
-    };
-  }
-
   state = {};
 
   openSidebar = () => {
@@ -23,7 +17,6 @@ class Header extends Component {
   goTohome = () => Router.push('/');
 
   render() {
-    console.log(this.props.isLogin);
     const { activeItem } = this.state;
     const { isLogin } = this.props;
     return (

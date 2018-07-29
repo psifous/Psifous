@@ -13,6 +13,16 @@ import web3 from '../../../../ethereum/web3';
 import Layout from '../../../../components/Layout/Layout';
 
 class CandidateAdd extends Component {
+  static async getInitialProps(ctx) {
+    const response = await axios.get(
+      `http://localhost:3000/api/elections/${ctx.query.address}`
+    );
+
+    const { blockchainAddress } = response.data.value;
+
+    return { blockchainAddress, address: ctx.query.address };
+  }
+
   state = {
     name: '',
     description: '',
@@ -26,14 +36,30 @@ class CandidateAdd extends Component {
     const formData = new FormData();
     formData.append('name', this.state.name);
     formData.append('description', this.state.description);
-    formData.append('ElectionId', 1);
+    formData.append('ElectionId', this.props.address);
     formData.append('image', this.state.image);
 
     this.setState({ loading: true, errorMessage: '' });
 
     try {
-      const { data } = await axios.post('/api/candidates', formData);
+      const { data } = await axios.post(
+        'http://localhost:3000/api/candidates',
+        formData
+      );
+
       console.log(data);
+
+      const { id, name } = data.value;
+
+      const accounts = await web3.eth.getAccounts();
+
+      const ethElection = await Election(this.props.blockchainAddress);
+
+      await ethElection.methods.addCandidate(id, name).send({
+        from: accounts[0]
+      });
+
+      console.log('finish');
     } catch (err) {
       console.log(err);
       if (err.response) {

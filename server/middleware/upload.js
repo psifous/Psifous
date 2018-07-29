@@ -1,14 +1,12 @@
 const Storage = require('@google-cloud/storage');
 const Multer = require('multer');
 
-
 //nama folder atau file di GCS
-const BUCKET_CONFIG = "ecommercehp";
-
+const BUCKET_CONFIG = 'psifous';
 
 const storage = Storage({
-  projectId: "ecommerce-hacktiv",
-  keyFilename: 'ecommerce-hacktiv-4870e897fd7f.json'
+  projectId: 'psifous-2018',
+  keyFilename: 'keyfile.json'
 });
 
 const bucket = storage.bucket(BUCKET_CONFIG);
@@ -31,21 +29,20 @@ module.exports = {
       }
     });
 
-    stream.on('error', (err) => {
+    stream.on('error', err => {
       console.log('error uploading to GCS', err);
       next(err);
     });
 
     stream.on('finish', () => {
-      file.makePublic()
-        .then(() => {
-          req.file.imageURL = getPublicUrl(filename);
-          next();
-        });
+      file.makePublic().then(() => {
+        req.file.imageURL = getPublicUrl(filename);
+        next();
+      });
     });
     stream.end(req.file.buffer);
   },
-  multer : Multer({
+  multer: Multer({
     storage: Multer.MemoryStorage,
     limits: {
       fileSize: 5 * 1024 * 1024

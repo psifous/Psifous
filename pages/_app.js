@@ -43,7 +43,6 @@ class MyApp extends App {
           token: c.authtoken
         })
         .then(({ data }) => {
-          console.log(ctx.pathname);
           if (freePath.includes(ctx.pathname)) {
             //if auth check was successful, send to dashboard
             if (data.result == 'success') {

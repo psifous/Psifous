@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Head from 'next/head';
 import { Container, Sidebar } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -26,7 +25,6 @@ class Layout extends Component {
           {`
             .layout {
               min-height: 100vh;
-              background-color: red;
             }
 
             .pushable {
