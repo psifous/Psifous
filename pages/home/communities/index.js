@@ -1,25 +1,66 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import { Grid, Button, Header } from 'semantic-ui-react';
 import Link from 'next/link';
-import { Button, Checkbox, Form, Segment, Grid } from 'semantic-ui-react';
-
 import Layout from '../../../components/Layout/Layout';
-import Elections from '../../../components/Elections/Elections'
+import ElectionCard from '../../../components/ElectionCard/ElectionCard';
 
-class CommunityPage extends React.Component {
+class CommunityPage extends Component {
+  static getInitialProps() {
+    const elections = [
+      {
+        id: 1,
+        name: 'Pemain bola terbaik masa kini',
+        description: 'ya begitulah',
+        startDate: '2018-07-27T08:45:25.821Z',
+        endDate: '2018-07-30T08:45:25.821Z',
+        blockchainAddress: 'www.google.com',
+        CommunityId: 1,
+        createdAt: '2018-07-28T04:38:53.353Z',
+        updatedAt: '2018-07-28T04:38:53.353Z'
+      },
+      {
+        id: 2,
+        name: 'Pemain basket terbaik tahun 2000',
+        description: 'ya begitulah',
+        startDate: '2018-07-27T08:45:25.821Z',
+        endDate: '2018-07-30T08:45:25.821Z',
+        blockchainAddress: 'www.google.com',
+        CommunityId: 1,
+        createdAt: '2018-07-28T04:38:53.354Z',
+        updatedAt: '2018-07-28T04:38:53.354Z'
+      },
+      {
+        id: 3,
+        name: 'Pelatih Volley masa kini',
+        description: 'ya begitulah',
+        startDate: '2018-07-27T08:45:25.821Z',
+        endDate: '2018-07-30T08:45:25.821Z',
+        blockchainAddress: 'www.google.com',
+        CommunityId: 1,
+        createdAt: '2018-07-28T04:38:53.354Z',
+        updatedAt: '2018-07-28T04:38:53.354Z'
+      }
+    ];
+
+    return { elections };
+  }
 
   render() {
     return (
       <Layout>
-        <Elections/>
+        <Header as="h2">New Elections</Header>
+        <Grid columns={1}>
+          {this.props.elections.map(election => (
+            <Grid.Row key={election.id}>
+              <Grid.Column>
+                <ElectionCard {...election} />
+              </Grid.Column>
+            </Grid.Row>
+          ))}
+        </Grid>
       </Layout>
     );
   }
 }
 
-const mapStateToprops = state => {
-  return {
-    isLogin: state.auth
-  }
-}
-export default connect(mapStateToprops, null)(CommunityPage);
+export default CommunityPage;

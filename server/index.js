@@ -37,6 +37,10 @@ app.prepare()
     server.use('/api/admins', adminRouter)
     server.use('/api/login', loginRouter)
     
+    // single page routes
+    // server.get('/communities/:id', (req, res) => {
+
+    // })
 
 
     server.get('*',(req, res)=>{
