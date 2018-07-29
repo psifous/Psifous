@@ -1,95 +1,107 @@
-const db = require('../models')
+const db = require('../models');
 
-module.exports ={
-  createElection : (req,res)=>{
-    db.Election.create({
-      name : req.body.name,
-      description : req.body.description,
-      startDate : req.body.startDate,
-      endDate: req.body.endDate,
-      blockchainAddress: req.body.blockchainAddress,
-      CommunityId:req.body.CommunityId
-    })
-    .then((value)=>{
+module.exports = {
+  createElection: async (req, res) => {
+    try {
+      const election = await db.Election.create({
+        name: req.body.name,
+        description: req.body.description,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        blockchainAddress: req.body.blockchainAddress,
+        CommunityId: req.body.CommunityId
+      });
+
       res.status(200).json({
-        message:'berhasil create election',
-        value
-      })
-    })
-    .catch((err)=>{
+        message: 'berhasil create election',
+        value: election
+      });
+    } catch (err) {
       res.status(400).json({
         message: 'gagal create election',
         err
-      })
-    })
+      });
+    }
   },
 
-  getAllElection : (req,res)=>{
-    db.Election.findAll()
-    .then((value)=>{
+  getAllElection: async (req, res) => {
+    try {
+      const elections = await db.Election.findAll({
+        order: [['createdAt', 'DESC']]
+      });
       res.status(200).json({
-        message:'mendapatkan data election',
-        value
-      })
-    })
-    .catch((err)=>{
-      res.status(400).json({
-        message:'terjadi kesalahan',
+        message: 'Fetched all election data successfully',
+        value: elections
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error: Failed to fetch all election data',
         err
-      })
-    })
+      });
+    }
   },
 
-  getOneElection : (req,res)=>{
-    db.Election.find({
-      where:{id:req.params.id},
-      include:[
-        db.Candidate
-      ]
-    })
-    .then((value)=>{
+  getOneElection: async (req, res) => {
+    try {
+      const election = await db.Election.find({
+        where: { id: req.params.id },
+        include: [db.Candidate]
+      });
+
       res.status(200).json({
-        message:'mendapatkan data election satuan',
-        value
-      })
-    })
-    .catch((err)=>{
-      res.status(400).json({
-        message:'terjadi kesalahan',
+        message: 'Fetched election data successfully',
+        value: election
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error: Failed to fetch election data',
         err
-      })
-    })
+      });
+    }
   },
 
-  updateElection : (req,res)=>{
-    db.Election.update(req.body,{where:{id:req.params.id}})
-    .then((value)=>{
-      console.log('masuk then',value)
-      res.status(200).json({
-        message:'berhasil update election',
-        value
-      })
-    })
-    .catch((err)=>{
-      res.status(400).json({
-        message:'terjadi kesalahan saat update election'
-      })
-    })
-  },
-
-  deleteElection :(req,res)=> {
-    db.Election.destroy({where:{id:req.params.id}})
-    .then((value)=>{
-      res.status(200).json({
-        message:'berhasil delete data election',
-        value
-      })
-    })
-    .catch((err)=>{
-      res.status(400).json({
-        message:'gagal delete data election',
+  updateElection: async (req, res) => {
+    try {
+      const [_, election] = await db.Election.update(req.body, {
+        where: { id: req.params.id },
+        returning: true
+      });
+      if (election[0]) {
+        res.status(200).json({
+          message: 'Election updated successfully',
+          value: election[0].dataValues
+        });
+      } else {
+        res.status(404).json({
+          message: 'Election not found'
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        message: 'Error: Failed to update election',
         err
-      })
-    })
+      });
+    }
+  },
+
+  deleteElection: async (req, res) => {
+    try {
+      const election = await db.Election.destroy({
+        where: { id: req.params.id },
+        returning: true,
+        plain: true
+      });
+      res.status(200).json({
+        message: 'berhasil delete data election',
+        value: election
+      });
+    } catch (err) {
+      res.status(400).json({
+        message: 'gagal delete data election',
+        err
+      });
+    }
   }
-}
+};
