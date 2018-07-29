@@ -185,6 +185,10 @@ blockchain/history
 #truffle
 .tern-port
 
+# google key
+
+keyfile.json
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
