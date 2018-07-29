@@ -8,11 +8,12 @@ import {
   Message
 } from 'semantic-ui-react';
 import axios from 'axios';
-// import Link from 'next/link';
+import Router from 'next/router';
 import electionFactory from './../../../ethereum/electionFactory';
 import web3 from './../../../ethereum/web3';
 import Layout from '../../../components/Layout/Layout';
 import '../../../static/css/react-widgets.css';
+import './../../../styles/index.css';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
@@ -21,6 +22,21 @@ Moment.locale('en');
 momentLocalizer();
 
 class ElectionNew extends Component {
+  static async getInitialProps(ctx) {
+    const { data: info } = await axios.get(
+      'http://localhost:3000/api/users/me',
+      {
+        headers: {
+          Authorization: ctx.authtoken
+        }
+      }
+    );
+
+    const { communityId } = info.user;
+
+    return { communityId };
+  }
+
   state = {
     name: '',
     description: '',
@@ -52,13 +68,14 @@ class ElectionNew extends Component {
         startDate: this.state.startDate,
         endDate: this.state.endDate,
         blockchainAddress: electionAddress,
-        CommunityId: 1
+        CommunityId: this.props.communityId
       };
 
       const { data } = await axios.post('/api/elections', electionData);
       console.log(data);
-    } catch (e) {
-      console.log(e);
+      Router.push('/dashboard');
+    } catch (err) {
+      console.log(err);
       this.setState({ errorMessage: err.message });
     }
     this.setState({ loading: false });

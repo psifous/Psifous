@@ -8,6 +8,12 @@ import { connect } from 'react-redux';
 import { visibleSidebar } from '../../store/actions/ui/uiActions';
 
 class Header extends Component {
+  static async getInitialProps() {
+    return {
+      isLogin: ctx.authtoken !== null
+    };
+  }
+
   state = {};
 
   openSidebar = () => {
@@ -17,18 +23,17 @@ class Header extends Component {
   goTohome = () => Router.push('/');
 
   render() {
+    console.log(this.props.isLogin);
     const { activeItem } = this.state;
     const { isLogin } = this.props;
     return (
       <Menu stackable>
         <Menu.Item
-          name="editorials"
-          active={activeItem === 'editorials'}
+          name="psifous"
+          active={activeItem === 'psifous'}
           onClick={isLogin ? this.openSidebar : this.goTohome}
         >
-          <Link href="/">
-            <Image src="/static/img/logo.png" size="mini" />
-          </Link>
+          <Image src="/static/img/logo.png" size="mini" />
         </Menu.Item>
 
         <Menu.Menu position="right">

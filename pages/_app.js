@@ -22,7 +22,7 @@ class MyApp extends App {
     let pageProps = {};
     let response;
     const c = cookies(ctx);
-
+    console.log(ctx.pathname);
     if (Component.getInitialProps && c.authtoken) {
       if (typeof c.authtoken !== 'undefined') {
         ctx.authtoken = c.authtoken;
@@ -31,7 +31,6 @@ class MyApp extends App {
     }
     //if the authtoken is not found
     if (typeof c.authtoken == 'undefined') {
-      console.log(freePath.includes(ctx.pathname));
       //don't do anything if we are on a page that doesn't require credentials
       if (freePath.includes(ctx.pathname)) return { ...pageProps };
       //if we are on any other page, redirect to the login page
@@ -44,7 +43,7 @@ class MyApp extends App {
           token: c.authtoken
         })
         .then(({ data }) => {
-          console.log(data);
+          console.log(ctx.pathname);
           if (freePath.includes(ctx.pathname)) {
             //if auth check was successful, send to dashboard
             if (data.result == 'success') {

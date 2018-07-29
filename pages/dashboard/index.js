@@ -7,9 +7,22 @@ import ElectionCard from '../../components/ElectionCard/ElectionCard';
 
 class Dashboard extends Component {
   static async getInitialProps(ctx) {
-    const { data } = await axios.get('http://localhost:3000/api/elections/');
+    const { data: info } = await axios.get(
+      'http://localhost:3000/api/users/me',
+      {
+        headers: {
+          Authorization: ctx.authtoken
+        }
+      }
+    );
 
-    return { elections: data.value };
+    const { communityId } = info.user;
+    const { data } = await axios.get(
+      `http://localhost:3000/api/communities/${communityId}`
+    );
+    const elections = data.value.Elections;
+
+    return { elections };
   }
 
   render() {
