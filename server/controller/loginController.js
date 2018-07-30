@@ -43,7 +43,8 @@ module.exports = {
                 });
               } else {
                 res.status(400).json({
-                  message: 'email atau password yang kamu masukan salah'
+                  message: 'email atau password yang kamu masukan salah',
+                  err
                 });
               }
             }
