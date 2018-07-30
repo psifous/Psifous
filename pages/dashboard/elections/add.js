@@ -7,13 +7,13 @@ import {
   Button,
   Message
 } from 'semantic-ui-react';
-import axios from 'axios';
-import Router from 'next/router';
-import electionFactory from './../../../ethereum/electionFactory';
-import web3 from './../../../ethereum/web3';
-import Layout from '../../../components/Layout/Layout';
-import '../../../static/css/react-widgets.css';
-import './../../../styles/index.css';
+import axios from '@/axios';
+import { Router } from '@/routes';
+import electionFactory from '@/ethereum/electionFactory';
+import web3 from '@/ethereum/web3';
+import Layout from '@/components/Layout/Layout';
+import '@/static/css/react-widgets.css';
+import '@/styles/index.css';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
@@ -23,14 +23,11 @@ momentLocalizer();
 
 class ElectionNew extends Component {
   static async getInitialProps(ctx) {
-    const { data: info } = await axios.get(
-      'http://localhost:3000/api/users/me',
-      {
-        headers: {
-          Authorization: ctx.authtoken
-        }
+    const { data: info } = await axios.get('/api/users/me', {
+      headers: {
+        Authorization: ctx.authtoken
       }
-    );
+    });
 
     const { communityId } = info.user;
 
@@ -73,7 +70,7 @@ class ElectionNew extends Component {
 
       const { data } = await axios.post('/api/elections', electionData);
       console.log(data);
-      Router.push('/dashboard');
+      Router.pushRoute('/dashboard');
     } catch (err) {
       console.log(err);
       this.setState({ errorMessage: err.message });
