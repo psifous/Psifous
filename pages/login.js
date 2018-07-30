@@ -9,11 +9,11 @@ import {
   Message,
   Segment
 } from 'semantic-ui-react';
-import Link from 'next/link';
-import Router from 'next/router';
-import axios from 'axios';
+import { Link, Router } from '@/routes.js';
 
-import Layout from '../components/Layout/Layout';
+import { loginAction } from '@/store/actions/auth/authActions';
+
+import Layout from '@/components/Layout/Layout';
 
 class LoginForm extends React.Component {
   state = {
@@ -25,17 +25,10 @@ class LoginForm extends React.Component {
     this.setState({ [prop]: event.target.value });
   };
 
-  loginHandle = async () => {
+  loginHandle = async e => {
+    e.preventDefault();
     let userData = this.state;
-    try {
-      const { data } = await axios.post('/api/login', userData);
-      console.log(data.token);
-      document.cookie = 'authtoken=' + data.token;
-      console.log(document.cookie);
-      Router.push('/');
-    } catch (err) {
-      console.log(err);
-    }
+    this.props.onLogin(userData);
   };
 
   render() {
@@ -51,7 +44,7 @@ class LoginForm extends React.Component {
               <Header as="h2" color="teal" textAlign="center">
                 Log-in to your account
               </Header>
-              <Form size="large">
+              <Form size="large" onSubmit={this.loginHandle}>
                 <Segment stacked>
                   <Form.Input
                     fluid
@@ -73,7 +66,7 @@ class LoginForm extends React.Component {
                     color="teal"
                     fluid
                     size="large"
-                    onClick={this.loginHandle}
+                    loading={this.props.isLoading}
                   >
                     Login
                   </Button>
@@ -95,10 +88,17 @@ class LoginForm extends React.Component {
 
 const mapStateToprops = state => {
   return {
-    isLogin: state.auth
+    isLoading: state.auth.isLoading
   };
 };
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogin: user => dispatch(loginAction(user))
+  };
+};
+
 export default connect(
   mapStateToprops,
-  null
+  mapDispatchToProps
 )(LoginForm);

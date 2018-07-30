@@ -39,7 +39,7 @@ class MyApp extends App {
     //if we do have an auth token to check
     else {
       response = await axios
-        .post('http://localhost:3000/api/verify', {
+        .post('/api/verify', {
           token: c.authtoken
         })
         .then(({ data }) => {

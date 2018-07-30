@@ -9,7 +9,10 @@ import {
   LOGOUT_SUCCESS
 } from './actionTypes';
 
-export const successLogin = (data) => {
+import axios from '@/axios';
+import { Router } from '@/routes.js';
+
+export const successLogin = data => {
   return {
     type: LOGIN_SUCCESS,
     payload: data
@@ -22,7 +25,7 @@ export const loadLogin = () => {
   };
 };
 
-export const failedLogin = (err) => {
+export const failedLogin = err => {
   return {
     type: LOGIN_FAILED,
     error: err
@@ -31,18 +34,18 @@ export const failedLogin = (err) => {
 
 export const loadRegister = () => {
   return {
-    type: REGISTER_LOAD,
+    type: REGISTER_LOAD
   };
 };
 
-export const successRegister = (userData) => {
+export const successRegister = userData => {
   return {
     type: REGISTER_SUCCESS,
     payload: userData
   };
 };
 
-export const failedRegister = (err) => {
+export const failedRegister = err => {
   return {
     type: REGISTER_FAILED,
     error: err
@@ -51,65 +54,57 @@ export const failedRegister = (err) => {
 
 export const loadLogout = () => {
   return {
-    type: LOGOUT_LOAD,
+    type: LOGOUT_LOAD
   };
 };
 
 export const successLogout = () => {
   return {
-    type: LOGOUT_SUCCESS,
+    type: LOGOUT_SUCCESS
   };
 };
 
-export const loginAction = (user) => {
-  return (dispatch) => {
-    dispatch(loadLogin())
-    
-    setTimeout(function(){ 
-      if(user.unamemail === 'admin' || user.unamemail === 'admin@mail.com'){
-        if(user.password === '123') {
-          let userData = {
-            name: 'Leni Diana',
-            username: 'admin',
-            email: 'admin@mail.com',
-            password: '123',
-            birthdate: '12-12-1999',
-            token: 'abcd123',
-            role: 'admin'
-          };
-
-          dispatch(successLogin(userData))
-        } else {
-          dispatch(failedLogin('wrong password'))
-        };
+export const loginAction = user => {
+  return async dispatch => {
+    try {
+      dispatch(loadLogin());
+      const { data } = await axios.post('/api/login', user);
+      const { data: info } = await axios.get('/api/users/me', {
+        headers: {
+          Authorization: data.token
+        }
+      });
+      document.cookie = `authtoken=${data.token}`;
+      dispatch(successLogin(info.user));
+      if (info.user.role === 'admin') {
+        Router.pushRoute('/dashboard');
       } else {
-        dispatch(failedLogin('not found email or username'))
-      };
-
-    }, 3000);
-
+        Router.pushRoute('/home');
+      }
+    } catch (err) {
+      dispatch(failedLogin(err));
+    }
   };
 };
 
-export const registerAction = (user) => {
-  return (dispatch) => {
-    dispatch(loadRegister())
+export const registerAction = user => {
+  return dispatch => {
+    dispatch(loadRegister());
 
-    setTimeout(function(){ 
-        user.token = 'abcd123';
-        user.role = 'admin';
+    setTimeout(function() {
+      user.token = 'abcd123';
+      user.role = 'admin';
 
-        dispatch(successRegister(user))
+      dispatch(successRegister(user));
     }, 3000);
   };
 };
 
 export const logoutAction = () => {
-  return (dispatch) => {
-    dispatch(loadLogout())
-
-    setTimeout(function(){ 
-        dispatch(successLogout())
-    }, 2000);
+  return dispatch => {
+    document.cookie =
+      'authtoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    dispatch(successLogout());
+    Router.pushRoute('/');
   };
 };

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Container, Sidebar } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import Header from '../Header/Header.js';
-import SidebarComponent from '../Sidebar/Sidebar';
+import Header from '@/components/Header/Header.js';
+import SidebarComponent from '@/components/Sidebar/Sidebar';
 
 class Layout extends Component {
   render() {
