@@ -13,6 +13,7 @@ class Layout extends Component {
       <React.Fragment>
         <div className="layout">
           <Head>
+            <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
             <link
               rel="stylesheet"
               href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"
