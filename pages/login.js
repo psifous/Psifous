@@ -12,13 +12,14 @@ import {
 import { Link, Router } from '@/routes.js';
 
 import { loginAction } from '@/store/actions/auth/authActions';
-
 import Layout from '@/components/Layout/Layout';
+import AlertMessage from '../components/AlertMessage/AlertMessage';
 
 class LoginForm extends React.Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+    errMessage: {},
   };
 
   handleChange = prop => event => {
@@ -45,6 +46,7 @@ class LoginForm extends React.Component {
                 Log-in to your account
               </Header>
               <Form size="large" onSubmit={this.loginHandle}>
+              {JSON.stringify(this.state.errMessage) !== '{}' ? <AlertMessage {...this.state.errMessage}/> : null}
                 <Segment stacked>
                   <Form.Input
                     fluid
