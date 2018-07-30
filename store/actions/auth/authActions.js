@@ -69,11 +69,13 @@ export const loginAction = user => {
     try {
       dispatch(loadLogin());
       const { data } = await axios.post('/api/login', user);
+      console.log(data);
       const { data: info } = await axios.get('/api/users/me', {
         headers: {
           Authorization: data.token
         }
       });
+      console.log(info);
       document.cookie = `authtoken=${data.token}`;
       dispatch(successLogin(info.user));
       if (info.user.role === 'admin') {

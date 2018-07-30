@@ -1,6 +1,6 @@
 import App, { Container } from 'next/app';
 import React from 'react';
-import axios from 'axios';
+import axios from '@/axios';
 import cookies from 'next-cookies';
 import { Provider } from 'react-redux';
 

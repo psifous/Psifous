@@ -7,16 +7,15 @@ import {
   Button,
   Message
 } from 'semantic-ui-react';
-import axios from 'axios';
-import Election from '../../../../ethereum/election';
-import web3 from '../../../../ethereum/web3';
-import Layout from '../../../../components/Layout/Layout';
+import axios from '@/axios';
+import { Router } from '@/routes';
+import Election from '@/ethereum/election';
+import web3 from '@/ethereum/web3';
+import Layout from '@/components/Layout/Layout';
 
 class CandidateAdd extends Component {
   static async getInitialProps(ctx) {
-    const response = await axios.get(
-      `http://localhost:3000/api/elections/${ctx.query.address}`
-    );
+    const response = await axios.get(`/api/elections/${ctx.query.address}`);
 
     const { blockchainAddress } = response.data.value;
 
@@ -42,10 +41,7 @@ class CandidateAdd extends Component {
     this.setState({ loading: true, errorMessage: '' });
 
     try {
-      const { data } = await axios.post(
-        'http://localhost:3000/api/candidates',
-        formData
-      );
+      const { data } = await axios.post('/api/candidates', formData);
 
       console.log(data);
 
@@ -60,6 +56,7 @@ class CandidateAdd extends Component {
       });
 
       console.log('finish');
+      Router.push(`/dashboard/elections/${this.props.address}`);
     } catch (err) {
       console.log(err);
       if (err.response) {

@@ -14,6 +14,8 @@ import {
 import { Link, Router } from '@/routes';
 import axios from '@/axios';
 
+import web3 from '../../ethereum/web3';
+
 import Layout from '@/components/Layout/Layout';
 
 class VoterRegister extends React.Component {
@@ -63,6 +65,8 @@ class VoterRegister extends React.Component {
 
     try {
       this.setState({ isLoading: true });
+      const accounts = await web3.eth.getAccounts();
+      newUser.blockchainAddress = accounts[0];
       const { data } = await axios.post('/api/users', newUser);
       console.log(data);
       this.setState({ isLoading: false });
