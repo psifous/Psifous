@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Menu, Sidebar, Icon } from 'semantic-ui-react';
-import { componentFromProp } from 'recompose';
 import { Link, Router } from './../../routes';
 import { connect } from 'react-redux';
 
 import { hiddenSidebar } from '../../store/actions/ui/uiActions';
+import { logoutAction } from '../../store/actions/auth/authActions';
 
 class SidebarComponent extends Component {
   closeSidebar = () => {
@@ -12,9 +12,18 @@ class SidebarComponent extends Component {
   };
 
   onLogout = () => {
-    document.cookie =
-      'authtoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    Router.push('/login');
+    // document.cookie =
+    //   'authtoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    // Router.push('/login');
+    this.props.onLogout();
+  };
+
+  onItemClick = name => {
+    this.props.sidebarCloseDispatch();
+    switch (name) {
+      case 'logout':
+        this.props.onLogout();
+    }
   };
 
   render() {
@@ -36,7 +45,7 @@ class SidebarComponent extends Component {
             Home
           </Menu.Item>
         </Link>
-        <Menu.Item as="a" onClick={this.onLogout}>
+        <Menu.Item as="a" onClick={() => this.onItemClick('logout')}>
           <Icon name="sign out alternate" />
           Logout
         </Menu.Item>
@@ -54,7 +63,8 @@ const mapStateToprops = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    sidebarCloseDispatch: () => dispatch(hiddenSidebar())
+    sidebarCloseDispatch: () => dispatch(hiddenSidebar()),
+    onLogout: () => dispatch(logoutAction())
   };
 };
 

@@ -2,12 +2,12 @@ import * as actionTypes from '../actions/auth/actionTypes';
 
 let initialState = {
   userData: {},
-  isLogin: true,
+  isLogin: false,
   isAdmin: false,
   isLoading: false,
   error: {
-    status: 'false',
-    message: 'nothing wrong'
+    status: '',
+    message: ''
   }
 };
 
@@ -29,7 +29,8 @@ const authReducer = (state = initialState, action) => {
         ...state,
         userData: action.payload,
         isLoading: false,
-        isLogin: true
+        isLogin: true,
+        isAdmin: action.payload.role === 'admin'
       };
       return state;
 
@@ -82,7 +83,9 @@ const authReducer = (state = initialState, action) => {
       state = {
         ...state,
         isLoading: false,
-        isLogin: false
+        isLogin: false,
+        isAdmin: false,
+        userData: {}
       };
       return state;
 
