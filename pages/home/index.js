@@ -19,11 +19,11 @@ class HomePage extends React.Component {
     const { data } = await axios.get('/api/communities');
     let communities = data.value;
 
-    return { communities };
+    return { communities, idUser };
   }
 
   render() {
-    const { communities } = this.props;
+    const { communities, idUser } = this.props;
     return (
       <Layout>
         <Header as="h2"> The Communities that you follow</Header>
@@ -31,7 +31,7 @@ class HomePage extends React.Component {
           {this.props.communities.map(community => (
             <Grid.Row key={community.id}>
               <Grid.Column>
-                <CommunityCard {...community} />
+                <CommunityCard {...community, idUser} />
               </Grid.Column>
             </Grid.Row>
           ))}
