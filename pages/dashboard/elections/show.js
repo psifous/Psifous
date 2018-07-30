@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
-import {
-  Grid,
-  Image,
-  Segment,
-  Container,
-  Card,
-  Header
-} from 'semantic-ui-react';
-import axios from 'axios';
-import Layout from '../../../components/Layout/Layout';
-import VotersList from './../../../components/VotersList/VotersList';
-import CandidatesList from './../../../components/CandidatesList/CandidatesList';
-import Election from '../../../ethereum/election';
-import web3 from '../../../ethereum/web3';
+import { Grid, Container, Button } from 'semantic-ui-react';
+import axios from '@/axios';
+import Layout from '@/components/Layout/Layout';
+import VotersList from '@/components/VotersList/VotersList';
+import CandidatesList from '@/components/CandidatesList/CandidatesList';
+import UserListModal from '@/components/UserListModal/UserListModal';
+import Election from '@/ethereum/election';
+import web3 from '@/ethereum/web3';
 
 export default class ElectionShow extends Component {
   static async getInitialProps(ctx) {
-    const { data: info } = await axios.get(
-      'http://localhost:3000/api/users/me',
-      {
-        headers: {
-          Authorization: ctx.authtoken
-        }
+    const { data: info } = await axios.get('/api/users/me', {
+      headers: {
+        Authorization: ctx.authtoken
       }
+    });
+
+    const { data: community } = await axios.get(
+      `/api/communities/${info.user.communityId}`
     );
 
-    const response = await axios.get(
-      `http://localhost:3000/api/elections/${ctx.query.address}`
-    );
+    const communityUsers = community.value.Users.map(user => {
+      user.blockchainAddress = '0x4b0897b0513fdc7c541b6d9d7e929c4e5364d2db';
+      return user;
+    });
+
+    const response = await axios.get(`/api/elections/${ctx.query.address}`);
 
     const election = {
       name: response.data.value.name,
@@ -51,6 +49,8 @@ export default class ElectionShow extends Component {
         })
     );
 
+    const totalVoters = await ethElection.methods.votersCount().call();
+
     const candidatesInfo = ethCandidates.reduce((acc, candidate, index) => {
       acc[candidate.id] = {
         name: candidate.name,
@@ -61,61 +61,7 @@ export default class ElectionShow extends Component {
       return acc;
     }, {});
 
-    console.log('info', candidatesInfo);
-
-    console.log('ethCandidate', ethCandidates);
-
     const tempCandidates = response.data.value.Candidates;
-
-    console.log('tempCandidate', tempCandidates);
-
-    const users = [
-      {
-        id: 1,
-        email: 'test1@email.com',
-        first_name: 'test1',
-        last_name: 'test',
-        password: '12345',
-        createdAt: '2018-07-28T04:38:53.195Z',
-        updatedAt: '2018-07-28T04:38:53.195Z'
-      },
-      {
-        id: 2,
-        email: 'test2@email.com',
-        first_name: 'test2',
-        last_name: 'test',
-        password: '12345',
-        createdAt: '2018-07-28T04:38:53.195Z',
-        updatedAt: '2018-07-28T04:38:53.195Z'
-      },
-      {
-        id: 3,
-        email: 'test3@email.com',
-        first_name: 'test3',
-        last_name: 'test',
-        password: '12345',
-        createdAt: '2018-07-28T04:38:53.195Z',
-        updatedAt: '2018-07-28T04:38:53.195Z'
-      },
-      {
-        id: 4,
-        email: 'test3@email.com',
-        first_name: 'test4',
-        last_name: 'test',
-        password: '12345',
-        createdAt: '2018-07-28T04:38:53.195Z',
-        updatedAt: '2018-07-28T04:38:53.195Z'
-      },
-      {
-        id: 5,
-        email: 'test3@email.com',
-        first_name: 'test5',
-        last_name: 'test',
-        password: '12345',
-        createdAt: '2018-07-28T04:38:53.195Z',
-        updatedAt: '2018-07-28T04:38:53.195Z'
-      }
-    ];
 
     const candidates = tempCandidates.reduce((acc, candidate) => {
       const candidateInfo = candidatesInfo[candidate.id];
@@ -129,12 +75,43 @@ export default class ElectionShow extends Component {
       return acc;
     }, []);
 
-    console.log('makan', candidates);
-
-    return { users, candidates, address: ctx.query.address };
+    return {
+      election,
+      totalVoters: +totalVoters,
+      candidates,
+      address: ctx.query.address,
+      community: community.value,
+      communityUsers
+    };
   }
 
+  state = {
+    totalVoters: 1
+  };
+
+  componentDidMount() {
+    this.setState({ totalVoters: this.props.totalVoters });
+  }
+
+  onAddVoter = async blockchainAddress => {
+    console.log('add');
+    const accounts = await web3.eth.getAccounts();
+
+    const ethElection = await Election(this.props.election.blockchainAddress);
+
+    await ethElection.methods.addVoter(blockchainAddress).send({
+      from: accounts[0]
+    });
+
+    const totalVoters = await ethElection.methods.votersCount().call();
+
+    this.setState({
+      totalVoters
+    });
+  };
+
   render() {
+    console.log(this.props);
     return (
       <Layout>
         <Grid stackable>
@@ -148,7 +125,12 @@ export default class ElectionShow extends Component {
 
           <Grid.Row>
             <Grid.Column width={5}>
-              <VotersList users={this.props.users} />
+              <VotersList totalVoters={this.state.totalVoters} />
+              <UserListModal
+                community={this.props.community}
+                communityUsers={this.props.communityUsers}
+                onAddVoter={this.onAddVoter}
+              />
             </Grid.Column>
             <Grid.Column width={11}>
               <CandidatesList
