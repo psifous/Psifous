@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
 import { Grid, Button, Header } from 'semantic-ui-react';
-import axios from 'axios';
-import Link from 'next/link';
-import Layout from '../../components/Layout/Layout';
-import ElectionCard from '../../components/ElectionCard/ElectionCard';
+import axios from '@/axios';
+import { Link } from '@/routes';
+import Layout from '@/components/Layout/Layout';
+import ElectionCard from '@/components/ElectionCard/ElectionCard';
 
 class Dashboard extends Component {
   static async getInitialProps(ctx) {
-    const { data: info } = await axios.get(
-      'http://localhost:3000/api/users/me',
-      {
-        headers: {
-          Authorization: ctx.authtoken
-        }
+    const { data: info } = await axios.get('/api/users/me', {
+      headers: {
+        Authorization: ctx.authtoken
       }
-    );
+    });
 
     const { communityId } = info.user;
-    const { data } = await axios.get(
-      `http://localhost:3000/api/communities/${communityId}`
-    );
+    const { data } = await axios.get(`/api/communities/${communityId}`);
     const elections = data.value.Elections;
 
     return { elections };
