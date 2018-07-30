@@ -6,7 +6,8 @@ import {
   REGISTER_LOAD,
   REGISTER_FAILED,
   LOGOUT_LOAD,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  SET_USER_DATA
 } from './actionTypes';
 
 import axios from '@/axios';
@@ -106,7 +107,31 @@ export const logoutAction = () => {
   return dispatch => {
     document.cookie =
       'authtoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    dispatch(setUserData({}));
     dispatch(successLogout());
     Router.pushRoute('/');
+  };
+};
+
+export const fetchUserData = token => {
+  return async dispatch => {
+    console.log('fetch');
+    try {
+      const { data } = await axios.get('/api/users/me', {
+        headers: {
+          Authorization: token
+        }
+      });
+      dispatch(setUserData(data.user));
+    } catch (err) {
+      console.log(err.response || err);
+    }
+  };
+};
+
+export const setUserData = userData => {
+  return {
+    type: SET_USER_DATA,
+    userData
   };
 };

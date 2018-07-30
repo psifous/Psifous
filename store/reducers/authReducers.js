@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/auth/actionTypes';
 
-let initialState = {
+export const initialState = {
   userData: {},
   isLogin: false,
   isAdmin: false,
@@ -88,7 +88,14 @@ const authReducer = (state = initialState, action) => {
         userData: {}
       };
       return state;
-
+    case actionTypes.SET_USER_DATA:
+      return {
+        ...state,
+        userData: action.userData,
+        isLoading: false,
+        isLogin: !!action.userData.id,
+        isAdmin: action.userData.role === 'admin'
+      };
     default:
       return state;
   }

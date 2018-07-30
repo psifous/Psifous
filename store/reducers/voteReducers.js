@@ -1,22 +1,21 @@
 import * as actionTypes from '../actions/vote/actionTypes';
 
-let initialState = {
+export const initialState = {
   selectedCandidate: null
 };
 
 const voteReducers = (state = initialState, action) => {
   switch (action.type) {
-
-    case actionTypes.CANDIDATE_CHECKED :
+    case actionTypes.CANDIDATE_CHECKED:
       state = {
         ...state,
-        selectedCandidate: action.payload.index
+        selectedCandidate: action.index
       };
       return state;
 
-    default :
+    default:
       return state;
   }
 };
 
-export default voteReducers
+export default voteReducers;

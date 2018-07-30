@@ -23,10 +23,37 @@ class SidebarComponent extends Component {
     switch (name) {
       case 'logout':
         this.props.onLogout();
+        break;
+      case 'home':
+        Router.pushRoute('/home');
+        break;
+      case 'dashboard':
+        Router.pushRoute('/dashboard');
+        break;
     }
   };
 
+  componentWillUnmount() {
+    this.props.sidebarCloseDispatch();
+  }
+
   render() {
+    let main = (
+      <Menu.Item as="a" onClick={() => this.onItemClick('home')}>
+        <Icon name="home" />
+        Home
+      </Menu.Item>
+    );
+
+    if (this.props.isAdmin) {
+      main = (
+        <Menu.Item as="a" onClick={() => this.onItemClick('dashboard')}>
+          <Icon name="dashboard" />
+          Dashboard
+        </Menu.Item>
+      );
+    }
+
     const { isLogin, visible } = this.props;
     return (
       <Sidebar
@@ -39,12 +66,7 @@ class SidebarComponent extends Component {
         visible={visible}
         width="thin"
       >
-        <Link href="/dashboard">
-          <Menu.Item as="a">
-            <Icon name="home" />
-            Home
-          </Menu.Item>
-        </Link>
+        {main}
         <Menu.Item as="a" onClick={() => this.onItemClick('logout')}>
           <Icon name="sign out alternate" />
           Logout
@@ -57,6 +79,7 @@ class SidebarComponent extends Component {
 const mapStateToprops = state => {
   return {
     isLogin: state.auth.isLogin,
+    isAdmin: state.auth.isAdmin,
     visible: state.ui.visible
   };
 };

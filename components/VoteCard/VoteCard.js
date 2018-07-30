@@ -1,34 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Segment, Button, Grid } from 'semantic-ui-react';
-import Link from 'next/link';
+import { Link } from '@/routes';
 
 import CandidateCard from '../CandidateCard/CandidateCard';
 
 class VoteCard extends React.Component {
-
   render() {
-    const {Candidates} = this.props
+    const { candidates } = this.props;
     return (
-      <Segment padded='very'>
+      <Segment padded="very">
         <Grid relaxed>
           <Grid.Row columns={3}>
-            {Candidates.map( candidate => (
+            {candidates.map(candidate => (
               <Grid.Column key={candidate.id}>
-                <CandidateCard {...candidate } />
+                <CandidateCard {...candidate} />
               </Grid.Column>
             ))}
           </Grid.Row>
-          <Grid.Row>
-            <Link href='/home'>
-              <Button
-                id="vote-button"
-                floated="right"
-                icon="check"
-                color="blue"
-                content="Vote"
-              />
-            </Link>
+          <Grid.Row centered>
+            <Button
+              id="vote-button"
+              icon="check"
+              color="blue"
+              content="Vote"
+              onClick={this.props.onVoteCandidate}
+              disabled={!this.props.selectedCandidate}
+            />
           </Grid.Row>
         </Grid>
       </Segment>
@@ -38,7 +36,11 @@ class VoteCard extends React.Component {
 
 const mapStateToprops = state => {
   return {
-    isLogin: state.auth
-  }
-}
-export default connect(mapStateToprops, null)(VoteCard);
+    isLogin: state.auth.isLogin,
+    selectedCandidate: state.vote.selectedCandidate
+  };
+};
+export default connect(
+  mapStateToprops,
+  null
+)(VoteCard);
