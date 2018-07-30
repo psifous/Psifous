@@ -36,33 +36,33 @@ class Header extends Component {
               onClick={this.handleItemClick}
             >
               <Link href="/login">
-                <a>Hai {`${userData.first_name} ${userData.last_name}`}</a>
+                <a>Hi, {`${userData.first_name} ${userData.last_name}`}</a>
               </Link>
             </Menu.Item>
-          </Menu.Menu>  
+          </Menu.Menu>
         ) : (
           <Menu.Menu position="right">
-          <Menu.Item
-            name="reviews"
-            active={activeItem === 'reviews'}
-            onClick={this.handleItemClick}
-          >
-            <Link href="/login">
-              <a>Login</a>
-            </Link>
-          </Menu.Item>
+            <Menu.Item
+              name="reviews"
+              active={activeItem === 'reviews'}
+              onClick={this.handleItemClick}
+            >
+              <Link href="/login">
+                <a>Login</a>
+              </Link>
+            </Menu.Item>
 
-          <Menu.Item
-            name="upcomingEvents"
-            active={activeItem === 'upcomingEvents'}
-            onClick={this.handleItemClick}
-          >
-            <Link href="/register">
-              <a>Register</a>
-            </Link>
-          </Menu.Item>
-        </Menu.Menu>
-      )}
+            <Menu.Item
+              name="upcomingEvents"
+              active={activeItem === 'upcomingEvents'}
+              onClick={this.handleItemClick}
+            >
+              <Link href="/register">
+                <a>Register</a>
+              </Link>
+            </Menu.Item>
+          </Menu.Menu>
+        )}
       </Menu>
     );
   }

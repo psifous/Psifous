@@ -17,7 +17,9 @@ class UserListModal extends Component {
               <UserItem
                 user={user}
                 key={user.id}
-                onAdd={() => this.props.onAddVoter(user.blockchainAddress)}
+                onAdd={() =>
+                  this.props.onAddVoter(user.id, user.blockchainAddress)
+                }
               />
             ))}
           </Card.Group>

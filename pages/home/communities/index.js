@@ -3,30 +3,19 @@ import { Grid, Button, Header } from 'semantic-ui-react';
 import Link from 'next/link';
 import axios from '@/axios';
 
-import Layout from '../../../components/Layout/Layout';
-import ElectionUserCard from '../../../components/ElectionUserCard/ElectionUserCard';
+import Layout from '@/components/Layout/Layout';
+import ElectionUserCard from '@/components/ElectionUserCard/ElectionUserCard';
 
 class CommunityPage extends Component {
   static async getInitialProps(ctx) {
-    const { data:info } = await axios.get(
-      '/api/users/me',
-      {
-        headers: {
-          Authorization: ctx.authtoken
-        }
-      }
-    );
-    
-    let communityid = ctx.query.communityid
-    let { data } = await axios.get(
-      `/api/communities/${communityid}`,
-    )
-    let community = data.value
-    return { community }
+    let communityid = ctx.query.communityid;
+    let { data } = await axios.get(`/api/communities/${communityid}`);
+    let community = data.value;
+    return { community };
   }
 
   render() {
-    let { community } = this.props
+    let { community } = this.props;
     return (
       <Layout>
         <Header as="h2">New Elections</Header>

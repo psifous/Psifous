@@ -1,21 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Link from 'next/link';
-import { Button, Header, Grid } from 'semantic-ui-react';
+import { Header, Grid } from 'semantic-ui-react';
 import axios from '@/axios';
 
-import Layout from '../../components/Layout/Layout';
-import CommunityCard from '../../components/CommunityCard/CommunityCard';
+import Layout from '@/components/Layout/Layout';
+import CommunityCard from '@/components/CommunityCard/CommunityCard';
 
 class HomePage extends React.Component {
   static async getInitialProps(ctx) {
-    const { data: info } = await axios.get('/api/users/me', {
-      headers: {
-        Authorization: ctx.authtoken
-      }
-    });
-
-    let { id } = info.user;
     const { data } = await axios.get('/api/communities');
     let communities = data.value;
 
@@ -23,10 +15,9 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { communities } = this.props;
     return (
       <Layout>
-        <Header as="h2"> The Communities that you follow</Header>
+        <Header as="h2">Explore Communities</Header>
         <Grid columns={1}>
           {this.props.communities.map(community => (
             <Grid.Row key={community.id}>
@@ -43,7 +34,8 @@ class HomePage extends React.Component {
 
 const mapStateToprops = state => {
   return {
-    isLogin: state.auth
+    isLogin: state.auth.isLogin,
+    userData: state.auth.userData
   };
 };
 export default connect(

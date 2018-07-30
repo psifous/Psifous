@@ -17,7 +17,7 @@ routes
   .add(
     'communityPage',
     '/home/communities/:communityid',
-    '/home/communities/'
+    '/home/communities/index'
   )
   .add(
     'electionPage',

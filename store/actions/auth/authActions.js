@@ -107,6 +107,7 @@ export const logoutAction = () => {
   return dispatch => {
     document.cookie =
       'authtoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    dispatch(setUserData({}));
     dispatch(successLogout());
     Router.pushRoute('/');
   };

@@ -23,10 +23,13 @@ class SidebarComponent extends Component {
     switch (name) {
       case 'logout':
         this.props.onLogout();
+        break;
       case 'home':
         Router.pushRoute('/home');
+        break;
       case 'dashboard':
         Router.pushRoute('/dashboard');
+        break;
     }
   };
 

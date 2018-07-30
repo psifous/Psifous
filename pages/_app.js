@@ -22,17 +22,19 @@ class MyApp extends App {
 
     const c = cookies(ctx);
     console.log(ctx.pathname);
-    if (Component.getInitialProps) {
-      if (typeof c.authtoken !== 'undefined' && c.authtoken !== '') {
-        ctx.authtoken = c.authtoken;
-      }
-      pageProps = await Component.getInitialProps(ctx);
-    }
 
     if (typeof c.authtoken !== 'undefined' && c.authtoken !== '') {
       if (JSON.stringify(ctx.reduxStore.getState().auth.userData) === '{}') {
         await ctx.reduxStore.dispatch(fetchUserData(c.authtoken));
       }
+    }
+
+    if (Component.getInitialProps) {
+      if (typeof c.authtoken !== 'undefined' && c.authtoken !== '') {
+        ctx.authtoken = c.authtoken;
+        ctx.userData = ctx.reduxStore.getState().auth.userData;
+      }
+      pageProps = await Component.getInitialProps(ctx);
     }
 
     if (typeof c.authtoken == 'undefined') {

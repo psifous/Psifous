@@ -10,14 +10,8 @@ import web3 from '@/ethereum/web3';
 
 export default class ElectionShow extends Component {
   static async getInitialProps(ctx) {
-    const { data: info } = await axios.get('/api/users/me', {
-      headers: {
-        Authorization: ctx.authtoken
-      }
-    });
-
     const { data: community } = await axios.get(
-      `/api/communities/${info.user.communityId}`
+      `/api/communities/${ctx.userData.communityId}`
     );
 
     const communityUsers = community.value.Users.map(user => {
@@ -27,13 +21,7 @@ export default class ElectionShow extends Component {
 
     const response = await axios.get(`/api/elections/${ctx.query.address}`);
 
-    const election = {
-      name: response.data.value.name,
-      description: response.data.value.description,
-      startDate: response.data.value.startDate,
-      endDate: response.data.value.endDate,
-      blockchainAddress: response.data.value.blockchainAddress
-    };
+    const election = response.data.value;
 
     const ethElection = await Election(election.blockchainAddress);
 
@@ -93,25 +81,38 @@ export default class ElectionShow extends Component {
     this.setState({ totalVoters: this.props.totalVoters });
   }
 
-  onAddVoter = async blockchainAddress => {
+  onAddVoter = async (userId, blockchainAddress) => {
     console.log('add');
-    const accounts = await web3.eth.getAccounts();
+    try {
+      console.log('electionId', this.props.election.id);
+      console.log('userId', userId);
+      console.log('ba', blockchainAddress);
+      const { data } = await axios.post('/api/conjunctionElections', {
+        UserId: userId,
+        ElectionId: this.props.election.id
+      });
 
-    const ethElection = await Election(this.props.election.blockchainAddress);
+      console.log(data);
 
-    await ethElection.methods.addVoter(blockchainAddress).send({
-      from: accounts[0]
-    });
+      const accounts = await web3.eth.getAccounts();
 
-    const totalVoters = await ethElection.methods.votersCount().call();
+      const ethElection = await Election(this.props.election.blockchainAddress);
 
-    this.setState({
-      totalVoters
-    });
+      await ethElection.methods.addVoter(blockchainAddress).send({
+        from: accounts[0]
+      });
+
+      const totalVoters = await ethElection.methods.votersCount().call();
+
+      this.setState({
+        totalVoters
+      });
+    } catch (err) {
+      console.log(err.response || err);
+    }
   };
 
   render() {
-    console.log(this.props);
     return (
       <Layout>
         <Grid stackable>

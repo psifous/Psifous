@@ -93,7 +93,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         userData: action.userData,
         isLoading: false,
-        isLogin: true,
+        isLogin: !!action.userData.id,
         isAdmin: action.userData.role === 'admin'
       };
     default:

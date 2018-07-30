@@ -9,7 +9,7 @@ const voteReducers = (state = initialState, action) => {
     case actionTypes.CANDIDATE_CHECKED:
       state = {
         ...state,
-        selectedCandidate: action.payload.index
+        selectedCandidate: action.index
       };
       return state;
 
