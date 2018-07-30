@@ -18,7 +18,7 @@ class Header extends Component {
 
   render() {
     const { activeItem } = this.state;
-    const { isLogin } = this.props;
+    const { isLogin, userData } = this.props;
     return (
       <Menu stackable>
         <Menu.Item
@@ -28,8 +28,20 @@ class Header extends Component {
         >
           <Image src="/static/img/logo.png" size="mini" />
         </Menu.Item>
-
-        <Menu.Menu position="right">
+        {isLogin ? (
+          <Menu.Menu position="right">
+            <Menu.Item
+              name="reviews"
+              active={activeItem === 'reviews'}
+              onClick={this.handleItemClick}
+            >
+              <Link href="/login">
+                <a>Hai {`${userData.first_name} ${userData.last_name}`}</a>
+              </Link>
+            </Menu.Item>
+          </Menu.Menu>  
+        ) : (
+          <Menu.Menu position="right">
           <Menu.Item
             name="reviews"
             active={activeItem === 'reviews'}
@@ -50,6 +62,7 @@ class Header extends Component {
             </Link>
           </Menu.Item>
         </Menu.Menu>
+      )}
       </Menu>
     );
   }
@@ -57,7 +70,8 @@ class Header extends Component {
 
 const mapStateToprops = state => {
   return {
-    isLogin: state.auth.isLogin
+    isLogin: state.auth.isLogin,
+    userData: state.auth.userData
   };
 };
 
