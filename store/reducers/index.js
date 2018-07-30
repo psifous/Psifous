@@ -1,12 +1,18 @@
-import { combineReducers } from 'redux'
-import authReducers from './authReducers'
-import uiReducers from './uiReducers'
-import voteReducers from './voteReducers'
+import { combineReducers } from 'redux';
+import authReducers, { initialState as authInitialState } from './authReducers';
+import uiReducers, { initialState as uiInitialState } from './uiReducers';
+import voteReducers, { initialState as voteInitialState } from './voteReducers';
 
 const rootReducer = combineReducers({
   auth: authReducers,
   ui: uiReducers,
   vote: voteReducers
-})
+});
 
-export default rootReducer
+export const rootInitialState = {
+  auth: authInitialState,
+  ui: uiInitialState,
+  vote: voteInitialState
+};
+
+export default rootReducer;

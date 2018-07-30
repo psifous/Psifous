@@ -3,15 +3,16 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import rootReducers from './reducers';
+import rootReducers, { rootInitialState } from './reducers';
 
-const initializeStrore = () => {
+const initializeStrore = (initialState = rootInitialState) => {
   const store = createStore(
     rootReducers,
+    initialState,
     composeWithDevTools(applyMiddleware(logger, thunk))
   );
 
   return store;
-}
+};
 
-export default initializeStrore
+export default initializeStrore;
