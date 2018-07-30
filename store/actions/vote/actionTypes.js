@@ -1,0 +1,5 @@
+const CANDIDATE_CHECKED = 'CANDIDATE_CHECKED';
+
+module.exports = {
+  CANDIDATE_CHECKED
+};

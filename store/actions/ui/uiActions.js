@@ -15,6 +15,7 @@ export const sidebarClose = () => {
   }
 };
 
+
 export const visibleSidebar = () => {
   return (dispatch) => {
     dispatch(sidebarOpen())    
