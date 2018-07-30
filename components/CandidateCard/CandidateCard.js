@@ -5,12 +5,10 @@ import { Card, Icon, Image, Checkbox } from 'semantic-ui-react';
 
 import { selectCandidate } from '@/store/actions/vote/voteActions';
 class CardExampleImageCard extends Component {
-
-
-  render () {
+  render() {
     return (
-      <Card>
-        <Image src='https://react.semantic-ui.com/images/avatar/large/daniel.jpg' />
+      <Card style={{ minHeight: '100vh' }}>
+        <Image src="https://react.semantic-ui.com/images/avatar/large/daniel.jpg" />
         <Card.Content>
           <Card.Header>{this.props.name}</Card.Header>
           <Card.Meta>Joined in 2016</Card.Meta>
@@ -20,9 +18,8 @@ class CardExampleImageCard extends Component {
           <Checkbox label='Vote this candidate' onChange={() => this.props.checkCandidate(this.props.id)} /> 
         </Card.Content>
       </Card>
-    )
+    );
   }
-
 }
 
 const mapStateToProps = state => {
@@ -36,4 +33,5 @@ const mapDispatchToProps = dispatch => {
     checkCandidate: (index) => dispatch(selectCandidate(index))
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(CardExampleImageCard)

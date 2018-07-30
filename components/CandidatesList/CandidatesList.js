@@ -6,7 +6,7 @@ import CandidateItem from './../CandidateItem/CandidateItem';
 export default props => {
   return (
     <React.Fragment>
-      <Grid centered columns={3} stackable style={{ marginBottom: 16 }}>
+      <Grid columns={3} stackable style={{ marginBottom: 16 }}>
         <Grid.Column width={15}>
           <Link route="addCandidate" params={{ address: props.address }}>
             <Button icon="add" content="Add new candidate" primary />

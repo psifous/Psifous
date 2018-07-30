@@ -10,7 +10,7 @@ module.exports = {
       email: req.body.email,
       first_name: req.body.first_name,
       last_name: req.body.last_name,
-      password: req.body.passwords
+      password: req.body.password
     })
       .then(value => {
         res.status(200).json({
