@@ -1,62 +1,35 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Checkbox, Form, Segment, Grid, Card, Icon, Image } from 'semantic-ui-react';
-import Link from 'next/link';
+import { Link } from '../../routes';
+
+import CandidatePreview from '../CandidatePreview/CandidatePreview'
 
 
 class ElectionPage extends React.Component {
 
   render() {
     return (
-      <Grid columns={2} padded='vertically'>
-        <Grid.Column>
-          <Card>
-            <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' />
-            <Card.Content>
-              <Card.Header>Matthew</Card.Header>
-              <Card.Meta>
-                <span className='date'>Joined in 2015</span>
-              </Card.Meta>
-              <Card.Description>Matthew is a musician living in Nashville.</Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-              <a>
-                <Icon name='user' />
-                22 Friends
-              </a>
-            </Card.Content>
-          </Card>
-        </Grid.Column>
-        <Grid.Column>
-          <Card>
-            <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' />
-            <Card.Content>
-              <Card.Header>Matthew</Card.Header>
-              <Card.Meta>
-                <span className='date'>Joined in 2015</span>
-              </Card.Meta>
-              <Card.Description>Matthew is a musician living in Nashville.</Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-              <a>
-                <Icon name='user' />
-                22 Friends
-              </a>
-            </Card.Content>
-          </Card>
-        </Grid.Column>
-        <Grid.Column width={8}>
-          <Link href="election/vote-booth">
+      <Grid>
+        <Grid.Row columns={3}>
+          {this.props.Candidates.map( candidate => (
+            <Grid.Column>
+              <CandidatePreview {...candidate}/>
+            </Grid.Column>
+          ))}
+        </Grid.Row>
+        <Grid.Row width={8} >
+          <Link route="voteBoothPage" params={{ communityid: this.props.CommunityId, electionid: this.props.id }} prefetch>
             <Button
-                id="vote-button"
-                icon="check"
-                color="green"
-                content="Vote Candidate"
+              id="vote-button"
+              icon="check"
+              color="blue"
+              content="Vote Candidate"
               />
           </Link>
-        </Grid.Column>
+        </Grid.Row>
       </Grid>
-    );
+    )
   }
 }
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Card, Icon, Button } from 'semantic-ui-react';
-import { Link } from '../../routes';
 import moment from 'moment';
+
+import { Link } from '../../routes';
 
 class ElectionCard extends Component {
   render() {
@@ -22,15 +23,6 @@ class ElectionCard extends Component {
               color="red"
               content="Delete"
             />
-            <Link route="/home/communities/election">
-              <Button
-                id="vote-button"
-                floated="right"
-                icon="list alternate"
-                color="blue"
-                content="Detail Election"
-              />
-            </Link>
             <Card.Header>{this.props.name}</Card.Header>
             <Card.Meta>
               <strong>Start Date:</strong>

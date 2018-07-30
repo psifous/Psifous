@@ -1,59 +1,40 @@
 import React, { Component } from 'react';
 import { Grid, Button, Header } from 'semantic-ui-react';
 import Link from 'next/link';
+import axios from '@/axios';
+
 import Layout from '../../../components/Layout/Layout';
-import ElectionCard from '../../../components/ElectionCard/ElectionCard';
+import ElectionUserCard from '../../../components/ElectionUserCard/ElectionUserCard';
 
 class CommunityPage extends Component {
-  static getInitialProps() {
-    const elections = [
+  static async getInitialProps(ctx) {
+    const { data:info } = await axios.get(
+      '/api/users/me',
       {
-        id: 1,
-        name: 'Pemain bola terbaik masa kini',
-        description: 'ya begitulah',
-        startDate: '2018-07-27T08:45:25.821Z',
-        endDate: '2018-07-30T08:45:25.821Z',
-        blockchainAddress: 'www.google.com',
-        CommunityId: 1,
-        createdAt: '2018-07-28T04:38:53.353Z',
-        updatedAt: '2018-07-28T04:38:53.353Z'
-      },
-      {
-        id: 2,
-        name: 'Pemain basket terbaik tahun 2000',
-        description: 'ya begitulah',
-        startDate: '2018-07-27T08:45:25.821Z',
-        endDate: '2018-07-30T08:45:25.821Z',
-        blockchainAddress: 'www.google.com',
-        CommunityId: 1,
-        createdAt: '2018-07-28T04:38:53.354Z',
-        updatedAt: '2018-07-28T04:38:53.354Z'
-      },
-      {
-        id: 3,
-        name: 'Pelatih Volley masa kini',
-        description: 'ya begitulah',
-        startDate: '2018-07-27T08:45:25.821Z',
-        endDate: '2018-07-30T08:45:25.821Z',
-        blockchainAddress: 'www.google.com',
-        CommunityId: 1,
-        createdAt: '2018-07-28T04:38:53.354Z',
-        updatedAt: '2018-07-28T04:38:53.354Z'
+        headers: {
+          Authorization: ctx.authtoken
+        }
       }
-    ];
-
-    return { elections };
+    );
+    
+    let communityid = ctx.query.communityid
+    let { data } = await axios.get(
+      `/api/communities/${communityid}`,
+    )
+    let community = data.value
+    return { community }
   }
 
   render() {
+    let { community } = this.props
     return (
       <Layout>
         <Header as="h2">New Elections</Header>
         <Grid columns={1}>
-          {this.props.elections.map(election => (
+          {community.Elections.map(election => (
             <Grid.Row key={election.id}>
               <Grid.Column>
-                <ElectionCard {...election} />
+                <ElectionUserCard {...election} />
               </Grid.Column>
             </Grid.Row>
           ))}

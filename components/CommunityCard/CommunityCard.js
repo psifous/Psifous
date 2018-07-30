@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Icon, Button } from 'semantic-ui-react';
-import Link from 'next/link';
+import { Link } from '../../routes';
 import moment from 'moment';
 
 class CommunityCard extends React.Component {
@@ -12,7 +12,7 @@ class CommunityCard extends React.Component {
       'MMMM Do YYYY, h:mm:ss a'
     );
     return (
-      <Link href={`home/communities`}>
+      <Link route='communityPage' params={{ communityid : this.props.id }} prefetch>
         <Card fluid onClick={this.props.onClick}>
           <Card.Content>
             <Card.Header>{this.props.name}</Card.Header>
