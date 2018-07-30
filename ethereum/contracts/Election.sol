@@ -2,10 +2,15 @@ pragma solidity ^0.4.24;
 
 contract ElectionFactory {
     address[] public deployedElections;
+
+    event ElectionLog (
+        address election
+    );
     
     function createElection() public {
         address newElection = new Election(msg.sender);
-        deployedElections.push(newElection);
+        uint electionId = deployedElections.push(newElection)-1;
+        emit ElectionLog(deployedElections[electionId]);
     }
 
     function getDeployedElections() public view returns (address[]) {
@@ -20,6 +25,18 @@ contract Election {
         string name;
         uint voteCount;
     }
+
+    event CandidateLog(
+        uint id,
+        string name,
+        uint voteCount,
+        uint index
+    );
+
+    event VoterLog (
+        address voter,
+        uint votersCount
+    );
     
     address public admin;
     Candidate[] public candidates;
@@ -39,6 +56,7 @@ contract Election {
     function addVoter(address voterAddress) public restricted {
         voters[voterAddress] = true;
         votersCount++;
+        emit VoterLog(voterAddress, votersCount);
     }
     
     function addCandidate(uint id, string name) public restricted {
@@ -49,6 +67,7 @@ contract Election {
         });
         
         candidates.push(newCandidate);
+        emit CandidateLog(newCandidate.id, newCandidate.name, newCandidate.voteCount, candidates.length-1);
     }
     
     function submitVote(uint candidateIndex) public {
