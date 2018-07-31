@@ -26,7 +26,7 @@ class DesktopContainer extends Component {
     const { fixed, isLogin, userData } = this.state
 
     return (
-      <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+      <Responsive>
         <Visibility
           once={false}
           onBottomPassed={this.showFixedMenu}
