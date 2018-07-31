@@ -9,6 +9,8 @@ import {
   STOP_LOADING
 } from './actionTypes';
 
+import { toast } from 'react-toastify';
+
 export const sidebarOpen = () => {
   return {
     type: SIDEBAR_HANDLE
@@ -66,5 +68,59 @@ export const visibleSidebar = () => {
 export const hiddenSidebar = () => {
   return dispatch => {
     dispatch(sidebarClose());
+  };
+};
+
+export const showErrorMessages = errors => {
+  return async dispatch => {
+    errors.forEach(error => {
+      toast.error(error, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    });
+  };
+};
+
+export const showSuccessMessages = messages => {
+  return async dispatch => {
+    messages.forEach(message => {
+      toast.success(message, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    });
+  };
+};
+
+export const showSuccessMessage = message => {
+  return async dispatch => {
+    return toast.success(message, {
+      position: toast.POSITION.TOP_CENTER
+    });
+  };
+};
+
+export const showInfoMessages = messages => {
+  return async dispatch => {
+    messages.forEach(message => {
+      toast.info(message, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    });
+  };
+};
+
+export const showInfoMessage = message => {
+  return async dispatch => {
+    return toast.info(message, {
+      position: toast.POSITION.TOP_CENTER
+    });
+  };
+};
+
+export const showProgressMessage = message => {
+  return async dispatch => {
+    return toast(message, {
+      position: toast.POSITION.TOP_RIGHT
+    });
   };
 };
