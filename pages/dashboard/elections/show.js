@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Grid, Container, Button } from 'semantic-ui-react';
+import { Grid, Container, Button, Segment, Header } from 'semantic-ui-react';
 import axios from '@/axios';
 import Layout from '@/components/Layout/Layout';
 import VotersList from '@/components/VotersList/VotersList';
 import CandidatesList from '@/components/CandidatesList/CandidatesList';
 import UserListModal from '@/components/UserListModal/UserListModal';
+import BarChart from '@/components/BarChart/BarChart';
+import PieChart from '@/components/PieChart/PieChart';
 import Election from '@/ethereum/election';
 import web3 from '@/ethereum/web3';
 
@@ -74,10 +76,13 @@ export default class ElectionShow extends Component {
   }
 
   state = {
-    totalVoters: 0
+    totalVoters: 0,
+    switchView: false,
+    GraphName: false
   };
 
   componentDidMount() {
+    setTimeout(this.toggleView, 100);
     this.setState({ totalVoters: this.props.totalVoters });
   }
 
@@ -106,6 +111,13 @@ export default class ElectionShow extends Component {
     }
   };
 
+  toggleView = () => {
+    this.setState(({ GraphName, switchView }) => ({
+      switchView: !switchView,
+      GraphName: !GraphName
+    }));
+  };
+
   render() {
     return (
       <Layout>
@@ -113,7 +125,29 @@ export default class ElectionShow extends Component {
           <Grid.Row>
             <Grid.Column width={16}>
               <Container>
-                <h3>Result</h3>
+                <Segment style={{ padding: 16 }}>
+                  <Header as="h2" content="Result" floated="left" />
+                  {this.state.GraphName ? (
+                    <Button
+                      primary={true}
+                      content="Switch to Bar Graph"
+                      onClick={() => this.toggleView()}
+                    />
+                  ) : (
+                    <Button
+                      primary={true}
+                      content="Switch to Pie Chart"
+                      onClick={() => this.toggleView()}
+                    />
+                  )}
+                  <div className="chart-container">
+                    {this.state.switchView ? (
+                      <PieChart candidates={this.props.candidates} />
+                    ) : (
+                      <BarChart candidates={this.props.candidates} />
+                    )}
+                  </div>
+                </Segment>
               </Container>
             </Grid.Column>
           </Grid.Row>
@@ -135,6 +169,14 @@ export default class ElectionShow extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+        <style jsx>{`
+          .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+          }
+        `}</style>
       </Layout>
     );
   }
