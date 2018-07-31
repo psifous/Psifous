@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Icon, Button } from 'semantic-ui-react';
 import moment from 'moment';
 
-import { Link } from '../../routes';
+import { Link } from '@/routes';
 
 class ElectionCard extends Component {
   render() {

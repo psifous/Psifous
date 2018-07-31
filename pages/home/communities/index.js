@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Grid, Button, Header } from 'semantic-ui-react';
-import Link from 'next/link';
+import { Grid, Button, Header, Segment } from 'semantic-ui-react';
 import axios from '@/axios';
+import { connect } from 'react-redux';
 
 import Layout from '@/components/Layout/Layout';
 import ElectionUserCard from '@/components/ElectionUserCard/ElectionUserCard';
@@ -16,21 +16,52 @@ class CommunityPage extends Component {
 
   render() {
     let { community } = this.props;
+    const showJoinButton = !community.Users.some(
+      user => user.id === this.props.userData.id
+    );
+
     return (
       <Layout>
-        <Header as="h2">New Elections</Header>
-        <Grid columns={1}>
-          {community.Elections.map(election => (
-            <Grid.Row key={election.id}>
-              <Grid.Column>
-                <ElectionUserCard {...election} />
-              </Grid.Column>
-            </Grid.Row>
-          ))}
+        <Grid stackable columns={1}>
+          <Grid.Column>
+            <Header as="h2" inverted floated="left">
+              {community.name}
+            </Header>
+            {showJoinButton ? (
+              <Button
+                id="join"
+                floated="right"
+                icon="group"
+                primary
+                content="Join"
+                onClick={this.onJoinCommunity}
+              />
+            ) : null}
+          </Grid.Column>
+          <Grid.Column>
+            <Grid columns={1}>
+              {community.Elections.map(election => (
+                <Grid.Row key={election.id}>
+                  <Grid.Column>
+                    <ElectionUserCard {...election} />
+                  </Grid.Column>
+                </Grid.Row>
+              ))}
+            </Grid>
+          </Grid.Column>
         </Grid>
       </Layout>
     );
   }
 }
 
-export default CommunityPage;
+const mapStateToProps = state => {
+  return {
+    userData: state.auth.userData
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(CommunityPage);
