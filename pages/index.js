@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Layout from '../components/Layout/ResponsiveContainer';
+import Layout from '../components/Layout/MainContainer';
 import MainPage from '../components/Main/MainPage';
 
 class Home extends React.Component {

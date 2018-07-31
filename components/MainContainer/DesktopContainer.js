@@ -61,12 +61,12 @@ class DesktopContainer extends Component {
                 ) : (
                   <Menu.Item position='right'>
                     <Link href="/login">
-                      <Button inverted={!fixed}>
+                      <Button as="a" inverted={!fixed}>
                         Log in
                       </Button>
                     </Link>
                     <Link href="/register">
-                      <Button inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
+                      <Button as="a" inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
                         Sign Up
                       </Button>
                     </Link>
@@ -77,7 +77,6 @@ class DesktopContainer extends Component {
             <HomepageHeading />
           </Segment>
         </Visibility>
-
         {children}
 
         <style jsx>{`
