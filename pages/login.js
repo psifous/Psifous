@@ -52,7 +52,7 @@ class LoginForm extends React.Component {
 
   loginHandler = async e => {
     e.preventDefault();
-    let userData = this.state;
+    let userData = this.state.controls;
     this.props.onLogin(userData);
   };
 
