@@ -12,7 +12,7 @@ export default class MyDocument extends Document {
             name="viewport"
           />
           <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico" />
-
+          <title>Psifous</title>
           <link
             rel="stylesheet"
             href="/next-static/style.css"
