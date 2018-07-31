@@ -9,7 +9,7 @@ import {
 } from 'semantic-ui-react';
 import axios from '@/axios';
 import { connect } from 'react-redux';
-
+import { Router } from '@/routes';
 import Layout from '@/components/Layout/Layout';
 import ElectionUserCard from '@/components/ElectionUserCard/ElectionUserCard';
 import {
@@ -26,24 +26,30 @@ class CommunityPage extends Component {
     return { community };
   }
 
+  state = {
+    isLoading: false
+  };
+
   onJoinCommunity = async () => {
-    // console.log('community', this.props.id);
-    // console.log('user', this.props.userData.id);
-    // try {
-    //   const { data } = await axios.post('/api/conjunctions', {
-    //     UserId: this.props.userData.id,
-    //     CommunityId: this.props.id
-    //   });
-    //   console.log(data);
-    //   console.log('done');
-    //   Router.pushRoute('communityPage', { communityid: this.props.id });
-    // } catch (err) {
-    //   console.log(err.response || err);
-    // }
     this.props.openConfirmation();
   };
 
-  onConfirm = async () => {};
+  onConfirm = async () => {
+    this.props.closeConfirmation();
+
+    try {
+      this.setState({ isLoading: true });
+      const { data } = await axios.post('/api/conjunctions', {
+        UserId: this.props.userData.id,
+        CommunityId: this.props.community.id
+      });
+      console.log(data);
+      Router.pushRoute('communityPage', { communityid: this.props.id });
+    } catch (err) {
+      console.log(err.response || err);
+      this.setState({ isLoading: false });
+    }
+  };
 
   onCancel = async () => {
     this.props.closeConfirmation();
@@ -55,8 +61,6 @@ class CommunityPage extends Component {
       user => user.id === this.props.userData.id
     );
 
-    console.log(isJoined);
-
     return (
       <Layout>
         <Grid stackable columns={1}>
@@ -66,6 +70,7 @@ class CommunityPage extends Component {
             </Header>
             <Button
               id="join"
+              loading={this.state.isLoading}
               floated="right"
               onClick={this.onJoinCommunity}
               color="blue"
