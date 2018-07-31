@@ -56,6 +56,7 @@ class ElectionPage extends React.Component {
   }
 
   render() {
+    console.log(this.props.candidates);
     return (
       <Layout>
         <ElectionDetail

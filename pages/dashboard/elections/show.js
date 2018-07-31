@@ -74,7 +74,7 @@ export default class ElectionShow extends Component {
   }
 
   state = {
-    totalVoters: 1
+    totalVoters: 0
   };
 
   componentDidMount() {
@@ -82,17 +82,11 @@ export default class ElectionShow extends Component {
   }
 
   onAddVoter = async (userId, blockchainAddress) => {
-    console.log('add');
     try {
-      console.log('electionId', this.props.election.id);
-      console.log('userId', userId);
-      console.log('ba', blockchainAddress);
       const { data } = await axios.post('/api/conjunctionElections', {
         UserId: userId,
         ElectionId: this.props.election.id
       });
-
-      console.log(data);
 
       const accounts = await web3.eth.getAccounts();
 

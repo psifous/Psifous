@@ -15,9 +15,10 @@ class Dashboard extends Component {
 
     const { communityId } = info.user;
     const { data } = await axios.get(`/api/communities/${communityId}`);
-    const elections = data.value.Elections;
+    const community = data.value;
+    const elections = community.Elections;
 
-    return { elections };
+    return { elections, community };
   }
 
   render() {
@@ -26,7 +27,9 @@ class Dashboard extends Component {
         <Link href="dashboard/elections/add" prefetch>
           <Button icon="add" content="Add new election" primary />
         </Link>
-        <Header as="h2">New Elections</Header>
+        <Header as="h2" inverted>
+          {this.props.community.name}
+        </Header>
         <Grid columns={1}>
           {this.props.elections.map(election => (
             <Grid.Row key={election.id}>

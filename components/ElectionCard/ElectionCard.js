@@ -7,11 +7,9 @@ import { Link } from '@/routes';
 class ElectionCard extends Component {
   render() {
     const startDate = moment(this.props.startDate).format(
-      'MMMM Do YYYY, h:mm:ss a'
+      'MMMM Do YYYY, h:mm a'
     );
-    const endDate = moment(this.props.endDate).format(
-      'MMMM Do YYYY, h:mm:ss a'
-    );
+    const endDate = moment(this.props.endDate).format('MMMM Do YYYY, h:mm a');
     return (
       <Link route="electionAdmin" params={{ address: this.props.id }} prefetch>
         <Card fluid onClick={this.props.onClick}>
