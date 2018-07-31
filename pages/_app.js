@@ -16,6 +16,13 @@ const nonAuthenticatedPath = [
   '/register/voter'
 ];
 
+const adminPath = [
+  '/dashboard',
+  '/dashboard/elections/add',
+  '/dashboard/elections/show',
+  '/dashboard/elections/show/candidates/add'
+];
+
 class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
@@ -37,11 +44,22 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    if (typeof c.authtoken == 'undefined') {
+    if (typeof c.authtoken == 'undefined' || c.authtoken == '') {
       //don't do anything if we are on a page that doesn't require credentials
       if (nonAuthenticatedPath.includes(ctx.pathname)) return { pageProps };
       //if we are on any other page, redirect to the login page
       return redirectTo('/login', { res: ctx.res, status: 301 });
+    } else {
+      const isAdmin = ctx.reduxStore.getState().auth.isAdmin;
+      if (nonAuthenticatedPath.includes(ctx.pathname)) {
+        if (isAdmin) {
+          redirectTo('/dashboard', { res: ctx.res, status: 301 });
+        } else {
+          redirectTo('/home', { res: ctx.res, status: 301 });
+        }
+      } else if (adminPath.includes(ctx.pathname) && !isAdmin) {
+        redirectTo('/home', { res: ctx.res, status: 301 });
+      }
     }
 
     return { pageProps };
