@@ -10,6 +10,8 @@ import {
   Image
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import Link from 'next/link';
+import Router from 'next/router';
 
 import HomepageHeading from '../Header/HomepageHeading';
 
@@ -21,7 +23,7 @@ class DesktopContainer extends Component {
 
   render() {
     const { children } = this.props
-    const { fixed } = this.state
+    const { fixed, isLogin, userData } = this.state
 
     return (
       <Responsive minWidth={Responsive.onlyTablet.minWidth}>
@@ -45,17 +47,31 @@ class DesktopContainer extends Component {
               size='large'
             >
               <Container>
-                <Menu.Item>
-                  <Image src="/static/img/logo.png" size="mini" />
-                </Menu.Item>
-                <Menu.Item position='right'>
-                  <Button inverted={!fixed}>
-                    Log in
-                  </Button>
-                  <Button inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
-                    Sign Up
-                  </Button>
-                </Menu.Item>
+                <Link href="/">
+                  <Menu.Item>
+                    <Image src="/static/img/logo.png" size="mini" />
+                  </Menu.Item>
+                </Link>
+                {isLogin ? (
+                  <Menu.Item position='right'>
+                    <Link href="/login">
+                       {`${userData.first_name} ${userData.last_name}`}
+                    </Link>
+                  </Menu.Item>
+                ) : (
+                  <Menu.Item position='right'>
+                    <Link href="/login">
+                      <Button inverted={!fixed}>
+                        Log in
+                      </Button>
+                    </Link>
+                    <Link href="/register">
+                      <Button inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
+                        Sign Up
+                      </Button>
+                    </Link>
+                  </Menu.Item>
+                )}
               </Container>
             </Menu>
             <HomepageHeading />

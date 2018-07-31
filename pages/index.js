@@ -6,6 +6,13 @@ import MainPage from '../components/Main/MainPage';
 
 class Home extends React.Component {
 
+  static async getInitialProps(ctx) {
+
+    const queryParams = ctx.query;
+
+    return { queryParams };
+  }
+
   render() {
     return (
       <Layout>
