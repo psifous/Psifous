@@ -12,7 +12,7 @@ import {
 import { Link, Router } from '@/routes.js';
 
 import { loginAction } from '@/store/actions/auth/authActions';
-import Layout from '@/components/Layout/ResponsiveContainer';
+import Layout from '@/components/Layout/Layout';
 import AlertMessage from '../components/AlertMessage/AlertMessage';
 
 class LoginForm extends React.Component {
