@@ -106,8 +106,8 @@ class OrganizerRegister extends React.Component {
             verticalAlign="middle"
           >
             <Grid.Column style={{ maxWidth: 450 }}>
-              <Header as="h2" color="teal" textAlign="center">
-                Create your account as a Organizer
+              <Header as="h2" inverted textAlign="center">
+                Create Your Account As a Organizer
               </Header>
               <Form size="large" onSubmit={this.registerUser}>
                 <Segment stacked textAlign="left">
@@ -160,7 +160,6 @@ class OrganizerRegister extends React.Component {
                       this.handleChange('communityLocation', e.target.value)
                     }
                   />
-                  <Form.Checkbox label="I agree to the Terms and Conditions" />
 
                   <Button
                     color="teal"

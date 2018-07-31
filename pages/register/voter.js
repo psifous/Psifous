@@ -3,18 +3,16 @@ import { connect } from 'react-redux';
 import {
   Button,
   Form,
-  Checkbox,
   Grid,
   Input,
   Header,
-  Image,
   Message,
   Segment
 } from 'semantic-ui-react';
 import { Link, Router } from '@/routes';
 import axios from '@/axios';
 
-import web3 from '../../ethereum/web3';
+import web3 from '@/ethereum/web3';
 
 import Layout from '@/components/Layout/Layout';
 
@@ -68,12 +66,10 @@ class VoterRegister extends React.Component {
       const accounts = await web3.eth.getAccounts();
       newUser.blockchainAddress = accounts[0];
       const { data } = await axios.post('/api/users', newUser);
-      console.log(data);
       this.setState({ isLoading: false });
       Router.pushRoute('/login');
     } catch (err) {
       this.setState({ isLoading: false });
-      console.log(err.response);
     }
   };
 
@@ -87,11 +83,17 @@ class VoterRegister extends React.Component {
             verticalAlign="middle"
           >
             <Grid.Column style={{ maxWidth: 450 }}>
-              <Header as="h2" color="teal" textAlign="center">
-                Create your account as a voter
+              <Header as="h2" inverted textAlign="center">
+                Create Your Account As a Voter
               </Header>
               <Form size="large" onSubmit={this.registerUser}>
                 <Segment stacked textAlign="left">
+                  <Header
+                    as="h2"
+                    color="teal"
+                    textAlign="center"
+                    content="Voter"
+                  />
                   <Form.Group widths="equal">
                     <Form.Field
                       control={Input}
@@ -110,7 +112,6 @@ class VoterRegister extends React.Component {
                       }
                     />
                   </Form.Group>
-
                   <Form.Input
                     label="Email"
                     type="email"
@@ -125,7 +126,6 @@ class VoterRegister extends React.Component {
                       this.handleChange('password', e.target.value)
                     }
                   />
-
                   <Button
                     color="teal"
                     fluid
