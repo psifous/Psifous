@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/ui/actionTypes';
 export const initialState = {
   visible: false,
   isLoading: false,
-  selectedCandidate: null
+  showConfirmation: false,
+  showModal: false
 };
 
 const uiReducers = (state = initialState, action) => {
@@ -21,21 +22,37 @@ const uiReducers = (state = initialState, action) => {
         visible: false
       };
       return state;
-
-    case actionTypes.CANDIDATE_LOAD_CHECKED:
-      state = {
+    case actionTypes.CONFIRMATION_OPEN:
+      return {
+        ...state,
+        showConfirmation: true
+      };
+    case actionTypes.CONFIRMATION_CLOSE:
+      return {
+        ...state,
+        showConfirmation: false
+      };
+    case actionTypes.START_LOADING:
+      return {
         ...state,
         isLoading: true
       };
-      return state;
-
-    case actionTypes.CANDIDATE_CHECKED:
-      state = {
+    case actionTypes.STOP_LOADING:
+      return {
         ...state,
-        selectedCandidate: action.payload.index
+        isLoading: false
       };
-      return state;
-
+    case actionTypes.OPEN_MODAL:
+      return {
+        ...state,
+        showModal: false
+      };
+      STOP_LOADING;
+    case actionTypes.CLOSE_MODAL:
+      return {
+        ...state,
+        showModal: false
+      };
     default:
       return state;
   }

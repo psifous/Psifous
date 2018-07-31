@@ -5,22 +5,6 @@ import { Link, Router } from '@/routes';
 import axios from '@/axios';
 
 class CommunityCard extends React.Component {
-  onJoinCommunity = async () => {
-    console.log('community', this.props.id);
-    console.log('user', this.props.userData.id);
-    try {
-      const { data } = await axios.post('/api/conjunctions', {
-        UserId: this.props.userData.id,
-        CommunityId: this.props.id
-      });
-      console.log(data);
-      console.log('done');
-      Router.pushRoute('communityPage', { communityid: this.props.id });
-    } catch (err) {
-      console.log(err.response || err);
-    }
-  };
-
   render() {
     return (
       <Link

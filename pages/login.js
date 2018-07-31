@@ -19,7 +19,7 @@ class LoginForm extends React.Component {
   state = {
     email: '',
     password: '',
-    errMessage: {},
+    errMessage: {}
   };
 
   handleChange = prop => event => {
@@ -35,19 +35,28 @@ class LoginForm extends React.Component {
   render() {
     return (
       <Layout>
-        <div>
+        <div className="login">
           <Grid
             textAlign="center"
             style={{ height: '100%' }}
             verticalAlign="middle"
           >
             <Grid.Column style={{ maxWidth: 450 }}>
-              <Header as="h2" color="teal" textAlign="center">
-                Log-in to your account
+              <Header as="h2" inverted textAlign="center">
+                Login to your account
               </Header>
               <Form size="large" onSubmit={this.loginHandle}>
-              {JSON.stringify(this.state.errMessage) !== '{}' ? <AlertMessage {...this.state.errMessage}/> : null}
-                <Segment stacked>
+                {JSON.stringify(this.state.errMessage) !== '{}' ? (
+                  <AlertMessage {...this.state.errMessage} />
+                ) : null}
+                <Segment>
+                  <Header
+                    as="h2"
+                    image="/static/img/logo.png"
+                    textAlign="center"
+                    content="Psifous"
+                    color="teal"
+                  />
                   <Form.Input
                     fluid
                     icon="user"
@@ -75,14 +84,19 @@ class LoginForm extends React.Component {
                 </Segment>
               </Form>
               <Message>
-                New to us?{' '}
-                <Link href="/register">
-                  <a>Sign Up</a>
+                Not registered yet ?
+                <Link route="/register">
+                  <a> Register</a>
                 </Link>
               </Message>
             </Grid.Column>
           </Grid>
         </div>
+        <style jsx>{`
+          .login: {
+            min-height: 100vh;
+          }
+        `}</style>
       </Layout>
     );
   }

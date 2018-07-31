@@ -24,7 +24,7 @@ class ElectionUserCard extends Component {
               id="vote-button"
               floated="right"
               icon="list alternate"
-              color="blue"
+              color="teal"
               content="Detail Election"
             />
           </Link>
