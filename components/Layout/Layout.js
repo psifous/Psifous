@@ -16,8 +16,8 @@ class Layout extends Component {
               <SidebarComponent />
               <Sidebar.Pusher dimmed={visible}>
                 <Header />
-                <Container className="main">
-                  {this.props.children}
+                <Container>
+                  <div className="main">{this.props.children}</div>
                 </Container>
               </Sidebar.Pusher>
             </Sidebar.Pushable>
@@ -27,6 +27,11 @@ class Layout extends Component {
           {`
             .layout {
               min-height: 100vh;
+              background-color: #009688;
+            }
+
+            .main {
+              padding-bottom: 16px;
             }
 
             .pushable {

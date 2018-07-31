@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Image } from 'semantic-ui-react';
+import { Menu, Image, Header as Heading } from 'semantic-ui-react';
 import { componentFromProp } from 'recompose';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -26,7 +26,12 @@ class Header extends Component {
           active={activeItem === 'psifous'}
           onClick={isLogin ? this.openSidebar : this.goTohome}
         >
-          <Image src="/static/img/logo.png" size="mini" />
+          <Heading
+            as="h3"
+            image="/static/img/logo.png"
+            content="Psifous"
+            color="teal"
+          />
         </Menu.Item>
         {isLogin ? (
           <Menu.Menu position="right">

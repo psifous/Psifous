@@ -1,46 +1,83 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Button, Grid } from 'semantic-ui-react';
+import { Segment, Button, Grid, Card } from 'semantic-ui-react';
 import { Link } from '@/routes';
 
 import CandidateCard from '../CandidateCard/CandidateCard';
+import ConfirmationDialog from '../ConfirmationDialog/ConfirmationDialog';
+
+import {
+  openConfirmation,
+  closeConfirmation,
+  startLoading,
+  stopLoading
+} from './../../store/actions/ui/uiActions';
 
 class VoteCard extends React.Component {
+  onConfirm = () => {
+    this.props.closeConfirmation();
+    this.props.onVoteCandidate();
+  };
+
+  onCancel = () => {
+    this.props.closeConfirmation();
+  };
+
+  onVoteClick = () => {
+    this.props.openConfirmation();
+  };
+
   render() {
     const { candidates } = this.props;
     return (
       <Segment padded="very">
-        <Grid relaxed>
-          <Grid.Row columns={3}>
-            {candidates.map(candidate => (
-              <Grid.Column key={candidate.id}>
-                <CandidateCard {...candidate} />
-              </Grid.Column>
-            ))}
-          </Grid.Row>
-          <Grid.Row centered>
+        <Grid columns={1}>
+          <Grid.Column>
+            <Card.Group centered>
+              {candidates.map(candidate => (
+                <CandidateCard key={candidate.id} {...candidate} />
+              ))}
+            </Card.Group>
+          </Grid.Column>
+          <Grid.Column textAlign="center">
             <Button
               id="vote-button"
               icon="check"
               color="blue"
               content="Vote"
-              onClick={this.props.onVoteCandidate}
+              onClick={this.onVoteClick}
               disabled={!this.props.selectedCandidate}
+              size="huge"
             />
-          </Grid.Row>
+          </Grid.Column>
         </Grid>
+        <ConfirmationDialog
+          onCancel={this.onCancel}
+          onConfirm={this.onConfirm}
+        />
       </Segment>
     );
   }
 }
 
-const mapStateToprops = state => {
+const mapStateToProps = state => {
   return {
     isLogin: state.auth.isLogin,
-    selectedCandidate: state.vote.selectedCandidate
+    selectedCandidate: state.vote.selectedCandidate,
+    isLoading: state.ui.isLoading
   };
 };
+
+const mapDispatchToProps = dispatch => {
+  return {
+    openConfirmation: () => dispatch(openConfirmation()),
+    closeConfirmation: () => dispatch(closeConfirmation()),
+    startLoading: () => dispatch(startLoading()),
+    stopLoading: () => dispatch(stopLoading())
+  };
+};
+
 export default connect(
-  mapStateToprops,
-  null
+  mapStateToProps,
+  mapDispatchToProps
 )(VoteCard);

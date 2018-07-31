@@ -7,11 +7,11 @@ import { selectCandidate } from '@/store/actions/vote/voteActions';
 class CardExampleImageCard extends Component {
   render() {
     return (
-      <Card style={{ minHeight: '250px' }}>
+      <Card>
         <Image src={this.props.image} />
         <Card.Content>
           <Card.Header>{this.props.name}</Card.Header>
-          <Card.Meta>Joined in 2016</Card.Meta>
+          <Card.Meta>{this.props.affiliation || 'Affiliation'}</Card.Meta>
         </Card.Content>
         <Card.Content extra>
           <Checkbox

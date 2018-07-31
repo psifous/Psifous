@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Header, Grid } from 'semantic-ui-react';
+import { Header, Grid, GridColumn, Search } from 'semantic-ui-react';
 import axios from '@/axios';
 
 import Layout from '@/components/Layout/Layout';
 import CommunityCard from '@/components/CommunityCard/CommunityCard';
+import FeedAccordion from '@/components/FeedAccordion/FeedAccordion';
 
 class HomePage extends React.Component {
   static async getInitialProps(ctx) {
@@ -17,15 +18,27 @@ class HomePage extends React.Component {
   render() {
     return (
       <Layout>
-        <Header as="h2">Explore Communities</Header>
-        <Grid columns={1}>
-          {this.props.communities.map(community => (
-            <Grid.Row key={community.id}>
-              <Grid.Column>
-                <CommunityCard {...community} />
-              </Grid.Column>
+        <Header as="h2" inverted>
+          Explore Communities
+        </Header>
+        <Grid columns={2} stackable>
+          <Grid.Column width={4}>
+            <FeedAccordion />
+          </Grid.Column>
+          <Grid.Column width={11}>
+            <Grid.Row>
+              <Grid columns={1}>
+                <Grid.Column>
+                  <Search fluid />
+                </Grid.Column>
+                {this.props.communities.map(community => (
+                  <Grid.Column key={community.id}>
+                    <CommunityCard {...community} />
+                  </Grid.Column>
+                ))}
+              </Grid>
             </Grid.Row>
-          ))}
+          </Grid.Column>
         </Grid>
       </Layout>
     );
