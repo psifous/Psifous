@@ -16,7 +16,9 @@ class Layout extends Component {
               <SidebarComponent />
               <Sidebar.Pusher dimmed={visible}>
                 <Header />
-                <Container className="main">{this.props.children}</Container>
+                <Container className="main">
+                  {this.props.children}
+                </Container>
               </Sidebar.Pusher>
             </Sidebar.Pushable>
           </div>

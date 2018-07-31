@@ -1,17 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Layout from '../components/Layout/ResponsiveContainer';
-import MainPage from '../components/Main/MainPage';
+import Layout from '../components/Layout/Layout';
+import MainPage from '../components/Main/Main';
 
 class Home extends React.Component {
-
-  static async getInitialProps(ctx) {
-
-    const queryParams = ctx.query;
-
-    return { queryParams };
-  }
 
   render() {
     return (
