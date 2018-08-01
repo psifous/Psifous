@@ -3,8 +3,12 @@ const logger = require('morgan');
 const cors = require('cors');
 const next = require('next');
 const path = require('path');
+const compression = require('compression');
 
-const PORT = process.env.port || 3000;
+let PORT = process.env.port || 3000;
+if (process.env.NODE_ENV === 'production') {
+  PORT = 8080
+}
 const routes = require('./routes');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -14,7 +18,10 @@ app
   .prepare()
   .then(() => {
     const server = express();
-
+    if (process.env.NODE_ENV === 'production') {
+      server.use(compression());
+      console.log('use compression');
+    }
     server.use(cors());
     server.use(logger('dev'));
     server.use(express.json());

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   Button,
@@ -36,9 +35,5 @@ const HomepageHeading = ({ mobile }) => (
     </Button>
   </Container>
 )
-
-HomepageHeading.propTypes = {
-  mobile: PropTypes.bool,
-}
 
 export default HomepageHeading

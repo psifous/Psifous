@@ -37,7 +37,7 @@ class BarGraph extends Component {
 
           let dataObj = {
             Name: candidate.name,
-            Vote: +voteCount,
+            Vote: parseInt(voteCount),
             fill: colors[idx]
           };
           idx++;

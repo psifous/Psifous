@@ -9,7 +9,7 @@ class Layout extends Component {
   render() {
     const { visible } = this.props;
     return (
-      <React.Fragment>
+      <div>
         <div className="layout">
           <div style={{ minHeight: '100vh' }}>
             <Sidebar.Pushable style={{ height: '100vh' }}>
@@ -39,7 +39,7 @@ class Layout extends Component {
             }
           `}
         </style>
-      </React.Fragment>
+      </div>
     );
   }
 }

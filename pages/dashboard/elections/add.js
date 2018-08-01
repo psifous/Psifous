@@ -46,8 +46,6 @@ class ElectionNew extends Component {
       controls.description.trim() !== '' &&
       isValid;
 
-    console.log(typeof controls.description);
-
     isValid =
       moment(controls.startDate).isBefore(moment(controls.endDate)) && isValid;
 

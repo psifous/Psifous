@@ -25,11 +25,6 @@ class ElectionCard extends Component {
             </Card.Meta>
           </Card.Content>
           <Card.Content description={this.props.description} />
-          <style jsx>{`
-            #button {
-              color: 'black';
-            }
-          `}</style>
         </Card>
       </Link>
     );
