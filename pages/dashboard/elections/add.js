@@ -13,7 +13,6 @@ import { Router } from '@/routes';
 import electionFactory from '@/ethereum/electionFactory';
 import web3 from '@/ethereum/web3';
 import Layout from '@/components/Layout/Layout';
-import '@/static/css/react-widgets.css';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
