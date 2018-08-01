@@ -7,7 +7,8 @@ import { Provider } from 'react-redux';
 import { fetchUserData, loadLogin } from '../store/actions/auth/authActions';
 import redirectTo from '../lib/redirectTo';
 import withReduxStore from '../lib/with-redux-store';
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
+import '../static/css/index.css';
 
 const nonAuthenticatedPath = [
   '/',

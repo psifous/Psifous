@@ -13,12 +13,7 @@ export default class MyDocument extends Document {
           />
           <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico" />
           <title>Psifous</title>
-          <link
-            rel="stylesheet"
-            href="/next-static/style.css"
-            type="text/css"
-          />
-
+          <link rel='stylesheet' href='/_next/static/style.css' />
           <link
             rel="stylesheet"
             href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"
