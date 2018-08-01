@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { Grid, Container, Button, Segment, Header } from 'semantic-ui-react';
 import moment from 'moment';
-import web3 from '@/ethereum/web3';
-import Election from '@/ethereum/election';
-import ElectionSocket from '@/ethereum/electionSocket';
 import Layout from '@/components/Layout/Layout';
 import VotersList from '@/components/VotersList/VotersList';
 import CandidatesList from '@/components/CandidatesList/CandidatesList';
 import UserListModal from '@/components/UserListModal/UserListModal';
 import BarChart from '@/components/BarChart/BarChart';
 import PieChart from '@/components/PieChart/PieChart';
-import { toast } from 'react-toastify';
 
 import {
   fetchElection,
