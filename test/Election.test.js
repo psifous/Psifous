@@ -68,7 +68,7 @@ describe('Elections', () => {
   });
 
   it('should allow admin to add new candidate to election', async () => {
-    await election.methods.addCandidate('Naruto').send({
+    await election.methods.addCandidate(1, 'Naruto').send({
       from: accounts[1],
       gas: '1000000'
     });
@@ -96,12 +96,12 @@ describe('Elections', () => {
   });
 
   it('should have the candidates array incremented for each candidate', async () => {
-    await election.methods.addCandidate('Naruto').send({
+    await election.methods.addCandidate(1, 'Naruto').send({
       from: accounts[1],
       gas: '1000000'
     });
 
-    await election.methods.addCandidate('Luffy').send({
+    await election.methods.addCandidate(2, 'Luffy').send({
       from: accounts[1],
       gas: '1000000'
     });
@@ -111,12 +111,17 @@ describe('Elections', () => {
   });
 
   it('should let voter submit a vote', async () => {
-    await election.methods.addCandidate('Naruto').send({
+    election.events.VoteLog({}, function(err, event) {
+      if (err) console.log(err);
+      expect(event).to.be.not.null;
+    });
+
+    await election.methods.addCandidate(1, 'Naruto').send({
       from: accounts[1],
       gas: '1000000'
     });
 
-    await election.methods.addCandidate('Luffy').send({
+    await election.methods.addCandidate(2, 'Luffy').send({
       from: accounts[1],
       gas: '1000000'
     });

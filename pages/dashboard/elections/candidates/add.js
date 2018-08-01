@@ -80,7 +80,8 @@ class CandidateAdd extends Component {
         closeOnClick: false,
         autoClose: false,
         closeButton: false,
-        draggable: false
+        draggable: false,
+        draggablePercent: 80
       });
       const formData = new FormData();
       formData.append('name', this.state.controls.name);
@@ -111,7 +112,8 @@ class CandidateAdd extends Component {
           closeOnClick: true,
           autoClose: 3000,
           closeButton: true,
-          draggable: true
+          draggable: true,
+          draggablePercent: 80
         });
 
         Router.pushRoute(`/dashboard/elections/${this.props.address}`);
@@ -122,7 +124,8 @@ class CandidateAdd extends Component {
           closeOnClick: true,
           autoClose: 3000,
           closeButton: true,
-          draggable: true
+          draggable: true,
+          draggablePercent: 80
         });
         console.log(err);
         if (err.response) {

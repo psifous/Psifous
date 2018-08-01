@@ -19,7 +19,6 @@ class CommunityCard extends React.Component {
                 {this.props.name}
               </Header>
             </Card.Header>
-            <Card.Description>Description here</Card.Description>
           </Card.Content>
           <CardContent extra>
             <Card.Meta>
