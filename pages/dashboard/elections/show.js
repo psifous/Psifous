@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Grid, Container, Button, Segment, Header } from 'semantic-ui-react';
 import moment from 'moment';
+import web3 from '@/ethereum/web3';
+import Election from '@/ethereum/election';
+import ElectionSocket from '@/ethereum/electionSocket';
 import Layout from '@/components/Layout/Layout';
 import VotersList from '@/components/VotersList/VotersList';
 import CandidatesList from '@/components/CandidatesList/CandidatesList';
 import UserListModal from '@/components/UserListModal/UserListModal';
 import BarChart from '@/components/BarChart/BarChart';
 import PieChart from '@/components/PieChart/PieChart';
+import { toast } from 'react-toastify';
 
 import {
   fetchElection,
@@ -22,6 +26,7 @@ class ElectionShow extends Component {
         electionId: ctx.query.address
       })
     );
+
     return {};
   }
 
@@ -31,9 +36,32 @@ class ElectionShow extends Component {
     GraphName: false
   };
 
-  componentDidMount() {
+  electionSocket = null;
+  newVoterSubscription = null;
+  async componentDidMount() {
     setTimeout(this.toggleView, 100);
-    this.setState({ totalVoters: this.props.totalVoters });
+    // this.electionSocket = await ElectionSocket(
+    //   this.props.election.blockchainAddress
+    // );
+
+    // this.newVoterSubscription = await this.electionSocket.events.VoterLog(
+    //   {},
+    //   (err, event) => {
+    //     if (err) console.log(err);
+    //     else {
+    //       console.log(event);
+    //       toast.info('New Voter', {
+    //         position: toast.POSITION.TOP_RIGHT
+    //       });
+    //     }
+    //   }
+    // );
+
+    // this.newVoterSubscription.on('data', function(event) {
+    //   console.log('From event', event);
+    // });
+
+    // console.log(this.newVoterSubscription);
   }
 
   onAddVoter = async (userId, blockchainAddress) => {
@@ -138,6 +166,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchElection: (electionId, communityId) =>
+      dispatch(fetchElection({ electionId, communityId })),
     onAddVoterToBlockchain: (userId, userBlockchainAddress) =>
       dispatch(addVoter(userId, userBlockchainAddress))
   };
