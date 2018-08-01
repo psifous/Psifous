@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Grid, Container, Button, Segment, Header } from 'semantic-ui-react';
-import axios from '@/axios';
+import moment from 'moment';
 import Layout from '@/components/Layout/Layout';
 import VotersList from '@/components/VotersList/VotersList';
 import CandidatesList from '@/components/CandidatesList/CandidatesList';
 import UserListModal from '@/components/UserListModal/UserListModal';
 import BarChart from '@/components/BarChart/BarChart';
 import PieChart from '@/components/PieChart/PieChart';
-import Election from '@/ethereum/election';
-import web3 from '@/ethereum/web3';
+
 import {
   fetchElection,
   addVoter
@@ -39,28 +38,6 @@ class ElectionShow extends Component {
 
   onAddVoter = async (userId, blockchainAddress) => {
     this.props.onAddVoterToBlockchain(userId, blockchainAddress);
-    // try {
-    //   const { data } = await axios.post('/api/conjunctionElections', {
-    //     UserId: userId,
-    //     ElectionId: this.props.election.id
-    //   });
-
-    //   const accounts = await web3.eth.getAccounts();
-
-    //   const ethElection = await Election(this.props.election.blockchainAddress);
-
-    //   await ethElection.methods.addVoter(blockchainAddress).send({
-    //     from: accounts[0]
-    //   });
-
-    //   const totalVoters = await ethElection.methods.votersCount().call();
-
-    //   this.setState({
-    //     totalVoters
-    //   });
-    // } catch (err) {
-    //   console.log(err.response || err);
-    // }
   };
 
   toggleView = () => {
@@ -71,6 +48,9 @@ class ElectionShow extends Component {
   };
 
   render() {
+    const noCandidates = this.props.candidates.length === 0;
+    const startDate = moment(this.props.election.startDate);
+    const endDate = moment(this.props.election.endDate);
     return (
       <Layout>
         <Grid stackable>
@@ -78,27 +58,35 @@ class ElectionShow extends Component {
             <Grid.Column width={16}>
               <Container>
                 <Segment style={{ padding: 16 }}>
-                  <Header as="h2" content="Result" floated="left" />
+                  <Header as="h2" content={this.props.election.name} />
+                  <p>
+                    {`${moment(startDate).format('MMMM Do YYYY, h:mm a')} -
+                ${moment(endDate).format('MMMM Do YYYY, h:mm a')}`}
+                  </p>
                   {this.state.GraphName ? (
                     <Button
                       primary={true}
                       content="Switch to Bar Graph"
                       onClick={() => this.toggleView()}
+                      disabled={!(this.props.candidates.length >= 2)}
                     />
                   ) : (
                     <Button
                       primary={true}
                       content="Switch to Pie Chart"
                       onClick={() => this.toggleView()}
+                      disabled={!(this.props.candidates.length >= 2)}
                     />
                   )}
-                  <div className="chart-container">
-                    {this.state.switchView ? (
-                      <PieChart candidates={this.props.candidates} />
-                    ) : (
-                      <BarChart candidates={this.props.candidates} />
-                    )}
-                  </div>
+                  {this.props.candidates.length >= 2 ? (
+                    <div className="chart-container">
+                      {this.state.switchView ? (
+                        <PieChart candidates={this.props.candidates} />
+                      ) : (
+                        <BarChart candidates={this.props.candidates} />
+                      )}
+                    </div>
+                  ) : null}
                 </Segment>
               </Container>
             </Grid.Column>
@@ -106,11 +94,15 @@ class ElectionShow extends Component {
 
           <Grid.Row>
             <Grid.Column width={5}>
-              <VotersList totalVoters={this.props.voters.length} />
+              <VotersList
+                totalVoters={this.props.voters.length}
+                voters={this.props.voters}
+              />
               <UserListModal
                 community={this.props.community}
                 communityUsers={this.props.communityUsers}
                 onAddVoter={this.onAddVoter}
+                candidatesTotal={this.props.candidates.length}
               />
             </Grid.Column>
             <Grid.Column width={11}>

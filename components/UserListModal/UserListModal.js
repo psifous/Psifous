@@ -6,7 +6,8 @@ import {
   Grid,
   Modal,
   Card,
-  Container
+  Container,
+  Popup
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import UserItem from '@/components/UserItem/UserItem';
@@ -39,12 +40,26 @@ class UserListModal extends Component {
       );
     }
 
+    const isElectionValid = this.props.candidatesTotal >= 2;
+
+    const addNewVoterButton = (
+      <Button icon="user plus" content="Add new voter" color="teal" />
+    );
+
+    let modalTrigger = addNewVoterButton;
+
+    if (!isElectionValid) {
+      modalTrigger = (
+        <Popup
+          trigger={addNewVoterButton}
+          content="Need mininum 2 Candidates to start election"
+          on="hover"
+        />
+      );
+    }
+
     return (
-      <Modal
-        trigger={
-          <Button icon="user plus" content="Add new voter" color="teal" />
-        }
-      >
+      <Modal trigger={modalTrigger}>
         <Modal.Header>{this.props.community.name}'s Users</Modal.Header>
         <Modal.Content>{content}</Modal.Content>
       </Modal>
