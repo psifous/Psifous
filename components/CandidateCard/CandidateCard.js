@@ -11,7 +11,6 @@ class CardExampleImageCard extends Component {
         <Image src={this.props.image} />
         <Card.Content>
           <Card.Header>{this.props.name}</Card.Header>
-          <Card.Meta>{this.props.affiliation || 'Affiliation'}</Card.Meta>
         </Card.Content>
         <Card.Content extra>
           <Checkbox

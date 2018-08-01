@@ -17,7 +17,7 @@ class DonutChart extends Component {
     const data = this.props.candidates
       ? this.props.candidates.map(candidate => {
           let candidateName = candidate.name;
-          let candidateVoteCount = (+candidate.voteCount + 1) * 5000;
+          let candidateVoteCount = parseInt(candidate.voteCount);
           let dataObj = {
             name: candidateName,
             value: candidateVoteCount,

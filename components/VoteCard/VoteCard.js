@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment, Button, Grid, Card } from 'semantic-ui-react';
+import { Segment, Button, Grid, Card, Header } from 'semantic-ui-react';
 import { Link } from '@/routes';
 
 import CandidateCard from '../CandidateCard/CandidateCard';
@@ -31,6 +31,8 @@ class VoteCard extends React.Component {
     const { candidates } = this.props;
     return (
       <Segment padded="very">
+        <Header as="h2" content={this.props.election.name} />
+        <Header as="h3" content="Vote Booth" />
         <Grid columns={1}>
           <Grid.Column>
             <Card.Group centered>
@@ -46,7 +48,7 @@ class VoteCard extends React.Component {
               color="blue"
               content="Vote"
               onClick={this.onVoteClick}
-              disabled={!this.props.selectedCandidate}
+              disabled={this.props.selectedCandidate === null}
               size="huge"
             />
           </Grid.Column>
