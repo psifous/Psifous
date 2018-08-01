@@ -28,9 +28,9 @@ class LoginForm extends React.Component {
 
   checkValidity = () => {
     const controls = { ...this.state.controls };
-    const isValid = Object.keys(controls).every(
-      input => controls[input].trim() !== ''
-    );
+    let isValid = true;
+    isValid = controls.email.trim() !== '' && isValid;
+    isValid = controls.password.trim() !== '' && isValid;
     this.setState({
       isValid
     });
@@ -123,11 +123,6 @@ class LoginForm extends React.Component {
             </Grid.Column>
           </Grid>
         </div>
-        <style jsx>{`
-          .login: {
-            min-height: 100vh;
-          }
-        `}</style>
       </Layout>
     );
   }

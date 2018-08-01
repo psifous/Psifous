@@ -7,7 +7,7 @@ class Main extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div>
         <Container fluid>
           <h1>Vote securely, transparent, and easy</h1>
         </Container>
@@ -19,7 +19,7 @@ class Main extends React.Component {
             }
           `}
         </style>
-      </React.Fragment>
+      </div>
     );
   }
 }

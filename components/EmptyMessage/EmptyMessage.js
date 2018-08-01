@@ -3,7 +3,6 @@ import { Icon, Header } from 'semantic-ui-react';
 
 class EmptyMessage extends Component {
   render() {
-    console.log('hit');
     return (
       <React.Fragment>
         <div

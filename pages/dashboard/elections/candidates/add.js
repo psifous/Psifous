@@ -94,8 +94,6 @@ class CandidateAdd extends Component {
       try {
         const { data } = await axios.post('/api/candidates', formData);
 
-        console.log(data);
-
         const { id, name } = data.value;
 
         const accounts = await web3.eth.getAccounts();

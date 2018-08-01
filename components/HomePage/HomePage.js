@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   Button,
@@ -50,9 +49,6 @@ const HomepageHeading = ({ mobile }) => (
   </Container>
 )
 
-HomepageHeading.propTypes = {
-  mobile: PropTypes.bool,
-}
 
 /* Heads up!
  * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
@@ -108,16 +104,12 @@ class DesktopContainer extends Component {
             <HomepageHeading />
           </Segment>
         </Visibility>
-
         {children}
       </Responsive>
     )
   }
 }
 
-DesktopContainer.propTypes = {
-  children: PropTypes.node,
-}
 
 class MobileContainer extends Component {
   state = {}
@@ -185,10 +177,6 @@ class MobileContainer extends Component {
   }
 }
 
-MobileContainer.propTypes = {
-  children: PropTypes.node,
-}
-
 const ResponsiveContainer = ({ children }) => (
   <div>
     <DesktopContainer>{children}</DesktopContainer>
@@ -196,9 +184,6 @@ const ResponsiveContainer = ({ children }) => (
   </div>
 )
 
-ResponsiveContainer.propTypes = {
-  children: PropTypes.node,
-}
 
 const HomepageLayout = () => (
   <ResponsiveContainer>
