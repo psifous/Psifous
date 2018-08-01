@@ -37,6 +37,10 @@ contract Election {
         address voter,
         uint votersCount
     );
+
+    event VoteLog (
+        address voter
+    );
     
     address public admin;
     Candidate[] public candidates;
@@ -78,6 +82,7 @@ contract Election {
         
         votings[msg.sender] = true;
         candidate.voteCount++;
+        emit VoteLog(msg.sender);
     }
     
     function getCandidatesCount() public view returns (uint) {
