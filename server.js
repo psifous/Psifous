@@ -5,7 +5,7 @@ const next = require('next');
 const path = require('path');
 const compression = require('compression');
 
-let PORT = process.env.port || 3000;
+let PORT = process.env.PORT || 3000;
 const routes = require('./routes');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
