@@ -1,39 +1,34 @@
-import React, { Component } from 'react'
-import {
-  Button,
-  Container,
-  Header,
-  Icon,
-} from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { Button, Container, Header, Icon } from 'semantic-ui-react';
 
 const HomepageHeading = ({ mobile }) => (
   <Container text>
     <Header
-      as='h1'
-      content='Psifos'
+      as="h1"
+      content="Psifous"
       inverted
       style={{
         fontSize: mobile ? '2em' : '4em',
         fontWeight: 'normal',
         marginBottom: 0,
-        marginTop: mobile ? '1.5em' : '3em',
+        marginTop: mobile ? '1.5em' : '3em'
       }}
     />
     <Header
-      as='h2'
-      content='Vote securely, transparent, and easy.'
+      as="h2"
+      content="Vote securely, transparent, and easy."
       inverted
       style={{
         fontSize: mobile ? '1.5em' : '1.7em',
         fontWeight: 'normal',
-        marginTop: mobile ? '0.5em' : '1.5em',
+        marginTop: mobile ? '0.5em' : '1.5em'
       }}
     />
-    <Button primary size='huge'>
+    <Button primary size="huge">
       Get Started
-      <Icon name='right arrow' />
+      <Icon name="right arrow" />
     </Button>
   </Container>
-)
+);
 
-export default HomepageHeading
+export default HomepageHeading;

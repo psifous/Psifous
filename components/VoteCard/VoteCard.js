@@ -50,6 +50,7 @@ class VoteCard extends React.Component {
               onClick={this.onVoteClick}
               disabled={this.props.selectedCandidate === null}
               size="huge"
+              loading={this.props.isLoading}
             />
           </Grid.Column>
         </Grid>

@@ -83,7 +83,7 @@ export const fetchElection = ({ communityId, electionId }) => {
 
       const voters = await election.Users.filter(async user => {
         const isValidUser = await ethElection.methods
-          .voters(user.blockchainAddress)
+          .voters(user.id)
           .call();
         return isValidUser;
       });
@@ -134,7 +134,7 @@ export const addVoter = (userId, userBlockchainAddress) => {
 
       const ethElection = await Election(electionBlockchainAddress);
 
-      await ethElection.methods.addVoter(userBlockchainAddress).send({
+      await ethElection.methods.addVoter(userId).send({
         from: accounts[0]
       });
 

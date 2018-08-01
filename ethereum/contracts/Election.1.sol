@@ -34,18 +34,18 @@ contract Election {
     );
 
     event VoterLog (
-        uint voterId,
+        address voter,
         uint votersCount
     );
 
     event VoteLog (
-        uint voter
+        address voter
     );
     
     address public admin;
     Candidate[] public candidates;
-    mapping(uint => bool) public voters;
-    mapping(uint => bool) public votings;
+    mapping(address => bool) public voters;
+    mapping(address => bool) public votings;
     uint public votersCount;
     
     modifier restricted {
@@ -57,10 +57,10 @@ contract Election {
         admin = creator;
     }
     
-    function addVoter(uint voterId) public restricted {
-        voters[voterId] = true;
+    function addVoter(address voterAddress) public restricted {
+        voters[voterAddress] = true;
         votersCount++;
-        emit VoterLog(voterId, votersCount);
+        emit VoterLog(voterAddress, votersCount);
     }
     
     function addCandidate(uint id, string name) public restricted {
@@ -74,15 +74,15 @@ contract Election {
         emit CandidateLog(newCandidate.id, newCandidate.name, newCandidate.voteCount, candidates.length-1);
     }
     
-    function submitVote(uint candidateIndex, uint voterId) public {
-        require(voters[voterId]);
-        require(!votings[voterId]);
+    function submitVote(uint candidateIndex) public {
+        require(voters[msg.sender]);
+        require(!votings[msg.sender]);
         
         Candidate storage candidate = candidates[candidateIndex];
         
-        votings[voterId] = true;
+        votings[msg.sender] = true;
         candidate.voteCount++;
-        emit VoteLog(voterId);
+        emit VoteLog(msg.sender);
     }
     
     function getCandidatesCount() public view returns (uint) {

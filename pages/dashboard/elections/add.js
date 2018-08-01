@@ -16,6 +16,7 @@ import Layout from '@/components/Layout/Layout';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+import { toast } from 'react-toastify';
 
 moment.locale('en');
 momentLocalizer();
@@ -69,7 +70,17 @@ class ElectionNew extends Component {
 
   onElectionSubmit = async e => {
     e.preventDefault();
+
     this.setState({ loading: true, errorMessage: '' });
+
+    const toastId = toast('Deployed election to blockchain ....', {
+      position: toast.POSITION.TOP_RIGHT,
+      closeOnClick: false,
+      autoClose: false,
+      closeButton: false,
+      draggable: false,
+      draggablePercent: 80
+    });
 
     try {
       const accounts = await web3.eth.getAccounts();
@@ -93,11 +104,33 @@ class ElectionNew extends Component {
       };
 
       const { data } = await axios.post('/api/elections', electionData);
-      console.log(data);
+
+      toast.update(toastId, {
+        render: 'Election deployed to blockchain successfully',
+        type: toast.TYPE.INFO,
+        closeOnClick: true,
+        autoClose: 3000,
+        closeButton: true,
+        draggable: true,
+        draggablePercent: 80
+      });
       Router.pushRoute('/dashboard');
     } catch (err) {
+      toast.update(toastId, {
+        render: 'Failed to deploying election to blockchain',
+        type: toast.TYPE.ERROR,
+        closeOnClick: true,
+        autoClose: 3000,
+        closeButton: true,
+        draggable: true,
+        draggablePercent: 80
+      });
       console.log(err);
-      this.setState({ errorMessage: err.message });
+      if (err.response) {
+        console.log(err.response);
+      } else {
+        this.setState({ errorMessage: err.message });
+      }
     }
     this.setState({ loading: false });
   };

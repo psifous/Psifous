@@ -45,19 +45,19 @@ describe('Elections', () => {
   });
 
   it('should allow admin to add new voter to election', async () => {
-    await election.methods.addVoter(accounts[2]).send({
+    await election.methods.addVoter(21).send({
       from: accounts[1],
       gas: '1000000'
     });
 
-    const isVoter = await election.methods.voters(accounts[2]).call();
+    const isVoter = await election.methods.voters(21).call();
 
     expect(isVoter).to.be.true;
   });
 
   it('should not allow non admin to add new voter to election', async () => {
     try {
-      await election.methods.addVoter(accounts[2]).send({
+      await election.methods.addVoter(10).send({
         from: accounts[0],
         gas: '1000000'
       });
@@ -111,10 +111,6 @@ describe('Elections', () => {
   });
 
   it('should let voter submit a vote', async () => {
-    election.events.VoteLog({}, function(err, event) {
-      if (err) console.log(err);
-      expect(event).to.be.not.null;
-    });
 
     await election.methods.addCandidate(1, 'Naruto').send({
       from: accounts[1],
@@ -130,17 +126,17 @@ describe('Elections', () => {
 
     expect(+candidatesLength).to.equal(2);
 
-    await election.methods.addVoter(accounts[2]).send({
+    await election.methods.addVoter(21).send({
       from: accounts[1],
       gas: '1000000'
     });
 
-    await election.methods.submitVote('0').send({
+    await election.methods.submitVote('0', 21).send({
       from: accounts[2],
       gas: '1000000'
     });
 
-    const isVoted = await election.methods.votings(accounts[2]).call();
+    const isVoted = await election.methods.votings(21).call();
     const candidate = await election.methods.candidates(0).call();
 
     expect(isVoted).to.equal(true);
