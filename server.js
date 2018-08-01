@@ -6,9 +6,6 @@ const path = require('path');
 const compression = require('compression');
 
 let PORT = process.env.port || 3000;
-if (process.env.NODE_ENV === 'production') {
-  PORT = 8080
-}
 const routes = require('./routes');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
