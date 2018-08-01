@@ -7,6 +7,10 @@ import { Router } from '@/routes';
 import Layout from '@/components/Layout/Layout';
 import VoteCard from '@/components/VoteCard/VoteCard';
 import { fetchElection } from '@/store/actions/election/electionActions';
+import {
+  startLoading,
+  stopLoading
+} from '../../../../../store/actions/ui/uiActions';
 import { toast } from 'react-toastify';
 
 class ElectionPage extends React.Component {
@@ -34,12 +38,15 @@ class ElectionPage extends React.Component {
         draggable: false,
         draggablePercent: 80
       });
+      this.props.startLoading();
 
       const accounts = await web3.eth.getAccounts();
       const ethElection = await Election(this.props.election.blockchainAddress);
-      await ethElection.methods.submitVote(this.props.selectedCandidate).send({
-        from: accounts[0]
-      });
+      await ethElection.methods
+        .submitVote(this.props.selectedCandidate, this.props.userData.id)
+        .send({
+          from: accounts[0]
+        });
 
       toast.update(toastId, {
         render: 'Vote added to blockchain successfully',
@@ -51,6 +58,8 @@ class ElectionPage extends React.Component {
         draggablePercent: 80
       });
 
+      this.props.stopLoading();
+
       Router.pushRoute('electionPage', {
         communityid: this.props.election.CommunityId,
         electionid: this.props.election.id
@@ -58,6 +67,7 @@ class ElectionPage extends React.Component {
     } catch (err) {
       console.log(err);
       toast.dismiss(toastId);
+      this.props.stopLoading();
       if (err.message.includes('address')) {
         toast.error('Failed to vote, please make sure metamask is installed', {
           position: toast.POSITION.TOP_CENTER
@@ -88,13 +98,19 @@ const mapStateToProps = state => {
     election: state.election.election,
     candidates: state.election.candidates,
     isLogin: state.auth.isLogin,
-    selectedCandidate: state.vote.selectedCandidate
+    selectedCandidate: state.vote.selectedCandidate,
+    userData: state.auth.userData
   };
 };
 
-const mapDispatchToProps = state => {};
+const mapDispatchToProps = dispatch => {
+  return {
+    startLoading: () => dispatch(startLoading()),
+    stopLoading: () => dispatch(stopLoading())
+  };
+};
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(ElectionPage);

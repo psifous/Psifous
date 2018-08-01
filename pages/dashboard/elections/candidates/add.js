@@ -75,7 +75,7 @@ class CandidateAdd extends Component {
   onAddCandidate = async e => {
     e.preventDefault();
     if (this.state.isValid) {
-      const toasId = toast('Adding candidate to blockchain ....', {
+      const toastId = toast('Adding candidate to blockchain ....', {
         position: toast.POSITION.TOP_RIGHT,
         closeOnClick: false,
         autoClose: false,
@@ -104,7 +104,7 @@ class CandidateAdd extends Component {
           from: accounts[0]
         });
 
-        toast.update(toasId, {
+        toast.update(toastId, {
           render: 'Candidate added to blockchain successfully',
           type: toast.TYPE.INFO,
           closeOnClick: true,
@@ -114,9 +114,11 @@ class CandidateAdd extends Component {
           draggablePercent: 80
         });
 
-        Router.pushRoute(`/dashboard/elections/${this.props.address}`);
+        Router.pushRoute('electionAdmin', {
+          address: this.props.address
+        });
       } catch (err) {
-        toast.update(toasId, {
+        toast.update(toastId, {
           render: 'Failed to add candidate to blockchain',
           type: toast.TYPE.ERROR,
           closeOnClick: true,
