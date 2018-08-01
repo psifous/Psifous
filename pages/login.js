@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Head from 'next/head';
+
 import {
   Button,
   Form,
@@ -17,24 +19,49 @@ import AlertMessage from '../components/AlertMessage/AlertMessage';
 
 class LoginForm extends React.Component {
   state = {
-    email: '',
-    password: '',
-    errMessage: {}
+    controls: {
+      email: '',
+      password: ''
+    },
+    isValid: false
   };
 
-  handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
+  checkValidity = () => {
+    const controls = { ...this.state.controls };
+    const isValid = Object.keys(controls).every(
+      input => controls[input].trim() !== ''
+    );
+    this.setState({
+      isValid
+    });
   };
 
-  loginHandle = async e => {
+  handleChange = (prop, value) => {
+    this.setState(
+      prevState => {
+        return {
+          controls: {
+            ...prevState.controls,
+            [prop]: value
+          }
+        };
+      },
+      () => this.checkValidity()
+    );
+  };
+
+  loginHandler = async e => {
     e.preventDefault();
-    let userData = this.state;
+    let userData = this.state.controls;
     this.props.onLogin(userData);
   };
 
   render() {
     return (
       <Layout>
+        <Head>
+          <title>Psifous | Login</title>
+        </Head>
         <div className="login">
           <Grid
             textAlign="center"
@@ -43,12 +70,9 @@ class LoginForm extends React.Component {
           >
             <Grid.Column style={{ maxWidth: 450 }}>
               <Header as="h2" inverted textAlign="center">
-                Login to your account
+                Login To Your Account
               </Header>
-              <Form size="large" onSubmit={this.loginHandle}>
-                {JSON.stringify(this.state.errMessage) !== '{}' ? (
-                  <AlertMessage {...this.state.errMessage} />
-                ) : null}
+              <Form size="large" onSubmit={this.loginHandler}>
                 <Segment>
                   <Header
                     as="h2"
@@ -62,7 +86,10 @@ class LoginForm extends React.Component {
                     icon="user"
                     iconPosition="left"
                     placeholder="E-mail address"
-                    onChange={this.handleChange('email')}
+                    name="email"
+                    onChange={(e, { value, name }) =>
+                      this.handleChange(name, value)
+                    }
                   />
                   <Form.Input
                     fluid
@@ -70,7 +97,10 @@ class LoginForm extends React.Component {
                     iconPosition="left"
                     placeholder="Password"
                     type="password"
-                    onChange={this.handleChange('password')}
+                    name="password"
+                    onChange={(e, { value, name }) =>
+                      this.handleChange(name, value)
+                    }
                   />
 
                   <Button
@@ -78,6 +108,7 @@ class LoginForm extends React.Component {
                     fluid
                     size="large"
                     loading={this.props.isLoading}
+                    disabled={!this.state.isValid}
                   >
                     Login
                   </Button>

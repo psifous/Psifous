@@ -14,13 +14,6 @@ class ElectionCard extends Component {
       <Link route="electionAdmin" params={{ address: this.props.id }} prefetch>
         <Card fluid onClick={this.props.onClick}>
           <Card.Content>
-            <Button
-              id="delete-button"
-              floated="right"
-              icon="trash"
-              color="red"
-              content="Delete"
-            />
             <Card.Header>{this.props.name}</Card.Header>
             <Card.Meta>
               <strong>Start Date:</strong>

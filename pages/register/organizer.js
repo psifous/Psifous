@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Head from 'next/head';
+
 import {
   Button,
   Form,
@@ -12,9 +14,10 @@ import {
   Segment
 } from 'semantic-ui-react';
 import { Link, Router } from '@/routes';
-import axios from '@/axios';
 
 import Layout from '@/components/Layout/Layout';
+
+import { registerOrganizer } from '@/store/actions/auth/authActions';
 
 class OrganizerRegister extends React.Component {
   state = {
@@ -64,41 +67,23 @@ class OrganizerRegister extends React.Component {
       communityName,
       communityLocation
     } = this.state.controls;
-    const newUser = {
+    const adminData = {
       first_name: firstName,
       last_name: lastName,
       email,
       password
     };
-    try {
-      this.setState({ isLoading: true });
-      const { data: community } = await axios.post('/api/communities', {
-        name: communityName,
-        location: communityLocation,
-        AdminId: 0
-      });
 
-      const communityId = community.value.id;
-
-      newUser.CommunityId = communityId;
-
-      const { data: admin } = await axios.post('/api/admins', newUser);
-
-      const { data } = await axios.put(`/api/communities/${communityId}`, {
-        AdminId: admin.value.id
-      });
-      this.setState({ isLoading: false });
-
-      Router.pushRoute('/login');
-    } catch (err) {
-      console.log(err);
-      this.setState({ isLoading: false });
-    }
+    const communityData = { communityName, communityLocation };
+    this.props.onRegister(adminData, communityData);
   };
 
   render() {
     return (
       <Layout>
+        <Head>
+          <title>Psifous | Register as Organizer</title>
+        </Head>
         <div className="login-form">
           <Grid
             textAlign="center"
@@ -106,11 +91,14 @@ class OrganizerRegister extends React.Component {
             verticalAlign="middle"
           >
             <Grid.Column style={{ maxWidth: 450 }}>
-              <Header as="h2" color="teal" textAlign="center">
-                Create your account as a Organizer
+              <Header as="h2" inverted textAlign="center">
+                Create Your Account As a Organizer
               </Header>
               <Form size="large" onSubmit={this.registerUser}>
                 <Segment stacked textAlign="left">
+                  <Header as="h2" color="teal" textAlign="center">
+                    Organizer
+                  </Header>
                   <Form.Group widths="equal">
                     <Form.Field
                       control={Input}
@@ -139,7 +127,7 @@ class OrganizerRegister extends React.Component {
                   <Form.Input
                     label="Password"
                     type="password"
-                    placeholder="enter password"
+                    placeholder="Enter password"
                     onChange={e =>
                       this.handleChange('password', e.target.value)
                     }
@@ -160,13 +148,12 @@ class OrganizerRegister extends React.Component {
                       this.handleChange('communityLocation', e.target.value)
                     }
                   />
-                  <Form.Checkbox label="I agree to the Terms and Conditions" />
 
                   <Button
                     color="teal"
                     fluid
                     size="large"
-                    loading={this.state.isLoading}
+                    loading={this.props.isLoading}
                     disabled={!this.state.isValid}
                   >
                     Register
@@ -176,7 +163,7 @@ class OrganizerRegister extends React.Component {
               <Message>
                 Want to Register as Voter?{' '}
                 <Link route="/register/voter">
-                  <a>Sign Up as Voter</a>
+                  <a>Register as Voter</a>
                 </Link>
               </Message>
             </Grid.Column>
@@ -189,10 +176,18 @@ class OrganizerRegister extends React.Component {
 
 const mapStateToprops = state => {
   return {
-    isLogin: state.auth
+    isLogin: state.auth.isLogin,
+    isLoading: state.ui.isLoading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onRegister: (adminData, communityData) =>
+      dispatch(registerOrganizer(adminData, communityData))
   };
 };
 export default connect(
   mapStateToprops,
-  null
+  mapDispatchToProps
 )(OrganizerRegister);

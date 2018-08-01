@@ -1,12 +1,13 @@
 import App, { Container } from 'next/app';
 import React from 'react';
 import axios from '@/axios';
-import initializeStrore from '../store/configureStore';
+import { ToastContainer, toast } from 'react-toastify';
 import cookies from 'next-cookies';
 import { Provider } from 'react-redux';
 import { fetchUserData, loadLogin } from '../store/actions/auth/authActions';
 import redirectTo from '../lib/redirectTo';
 import withReduxStore from '../lib/with-redux-store';
+import 'react-toastify/dist/ReactToastify.css';
 
 const nonAuthenticatedPath = [
   '/',
@@ -70,7 +71,10 @@ class MyApp extends App {
     return (
       <Container>
         <Provider store={reduxStore}>
-          <Component {...pageProps} />
+          <React.Fragment>
+            <Component {...pageProps} />
+            <ToastContainer />
+          </React.Fragment>
         </Provider>
       </Container>
     );

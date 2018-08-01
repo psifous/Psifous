@@ -4,7 +4,8 @@ export const initialState = {
   visible: false,
   isLoading: false,
   showConfirmation: false,
-  showModal: false
+  showModal: false,
+  errorMessages: []
 };
 
 const uiReducers = (state = initialState, action) => {

@@ -10,6 +10,14 @@ import {
   SET_USER_DATA
 } from './actionTypes';
 
+import {
+  showErrorMessages,
+  startLoading,
+  stopLoading,
+  showSuccessMessage
+} from './../ui/uiActions';
+import web3 from '@/ethereum/web3';
+
 import axios from '@/axios';
 import { Router } from '@/routes.js';
 
@@ -70,13 +78,11 @@ export const loginAction = user => {
     try {
       dispatch(loadLogin());
       const { data } = await axios.post('/api/login', user);
-      console.log(data);
       const { data: info } = await axios.get('/api/users/me', {
         headers: {
           Authorization: data.token
         }
       });
-      console.log(info);
       document.cookie = `authtoken=${data.token}`;
       dispatch(successLogin(info.user));
       if (info.user.role === 'admin') {
@@ -86,20 +92,90 @@ export const loginAction = user => {
       }
     } catch (err) {
       dispatch(failedLogin(err));
+      if (err.response) {
+        if (err.response.status === 400) {
+          dispatch(showErrorMessages(['Wrong username or Password']));
+        } else if (err.response.status === 500) {
+          dispatch(showErrorMessages(['Login failed, please try again']));
+        }
+      }
     }
   };
 };
 
-export const registerAction = user => {
-  return dispatch => {
-    dispatch(loadRegister());
+export const registerVoter = registrationData => {
+  return async dispatch => {
+    try {
+      dispatch(startLoading());
+      const accounts = await web3.eth.getAccounts();
+      if (accounts.length === 0) {
+        dispatch(stopLoading());
+        dispatch(showErrorMessages(['Please install Metamask to register']));
+        return;
+      }
+      registrationData.blockchainAddress = accounts[0];
+      const { data } = await axios.post('/api/users', registrationData);
+      dispatch(stopLoading());
+      dispatch(showSuccessMessage(['Registered as Voter successfully']));
+      Router.pushRoute('/login');
+    } catch (err) {
+      dispatch(stopLoading());
+      console.log(err);
+      if (err.response) {
+        if (err.response.status === 400) {
+          dispatch(showErrorMessages(['Invalid registration fields']));
+        } else {
+          dispatch(
+            showErrorMessages(['Registration failed, please try again'])
+          );
+        }
+      } else {
+        dispatch(showErrorMessages(['Registration failed, please try again']));
+      }
+    }
+  };
+};
 
-    setTimeout(function() {
-      user.token = 'abcd123';
-      user.role = 'admin';
+export const registerOrganizer = (adminData, communityData) => {
+  return async dispatch => {
+    try {
+      dispatch(startLoading());
+      const { data: community } = await axios.post('/api/communities', {
+        name: communityData.communityName,
+        location: communityData.communityLocation,
+        AdminId: 0
+      });
 
-      dispatch(successRegister(user));
-    }, 3000);
+      const communityId = community.value.id;
+
+      adminData.CommunityId = communityId;
+
+      const { data: admin } = await axios.post('/api/admins', adminData);
+
+      const { data } = await axios.put(`/api/communities/${communityId}`, {
+        AdminId: admin.value.id
+      });
+      dispatch(stopLoading());
+      await dispatch(
+        showSuccessMessage(['Registered as Organizer successfully'])
+      );
+
+      Router.pushRoute('/login');
+    } catch (err) {
+      dispatch(stopLoading());
+      console.log(err);
+      if (err.response) {
+        if (err.response.status === 400) {
+          dispatch(showErrorMessages(['Invalid registration fields']));
+        } else {
+          dispatch(
+            showErrorMessages(['Registration failed, please try again'])
+          );
+        }
+      } else {
+        dispatch(showErrorMessages(['Registration failed, please try again']));
+      }
+    }
   };
 };
 
@@ -115,7 +191,6 @@ export const logoutAction = () => {
 
 export const fetchUserData = token => {
   return async dispatch => {
-    console.log('fetch');
     try {
       const { data } = await axios.get('/api/users/me', {
         headers: {
