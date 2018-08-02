@@ -82,9 +82,7 @@ export const fetchElection = ({ communityId, electionId }) => {
       );
 
       const voters = await election.Users.filter(async user => {
-        const isValidUser = await ethElection.methods
-          .voters(user.id)
-          .call();
+        const isValidUser = await ethElection.methods.voters(user.id).call();
         return isValidUser;
       });
 
