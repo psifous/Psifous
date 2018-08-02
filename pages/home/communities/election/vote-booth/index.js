@@ -12,6 +12,7 @@ import {
   stopLoading
 } from '../../../../../store/actions/ui/uiActions';
 import { toast } from 'react-toastify';
+import io from 'socket.io-client';
 
 class ElectionPage extends React.Component {
   static async getInitialProps(ctx) {
@@ -25,6 +26,12 @@ class ElectionPage extends React.Component {
     );
 
     return {};
+  }
+
+  socket = null;
+
+  componentDidMount() {
+    this.socket = io('https://socket.dwikyerl.me');
   }
 
   onVoteCandidate = async () => {
@@ -60,6 +67,8 @@ class ElectionPage extends React.Component {
 
       this.props.stopLoading();
 
+      this.socket.emit('newVote', 'voting');
+
       Router.pushRoute('electionPage', {
         communityid: this.props.election.CommunityId,
         electionid: this.props.election.id
@@ -80,9 +89,14 @@ class ElectionPage extends React.Component {
     }
   };
 
+  onClick = () => {
+    this.socket.emit('newVote', 'voting');
+  };
+
   render() {
     return (
       <Layout>
+        {/* <Button onClick={this.onClick} content="Click me" /> */}
         <VoteCard
           election={this.props.election}
           candidates={this.props.candidates}

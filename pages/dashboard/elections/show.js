@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Container, Button, Segment, Header } from 'semantic-ui-react';
+import io from 'socket.io-client';
 import moment from 'moment';
 import Layout from '@/components/Layout/Layout';
 import VotersList from '@/components/VotersList/VotersList';
@@ -32,32 +33,17 @@ class ElectionShow extends Component {
     GraphName: false
   };
 
-  electionSocket = null;
   newVoterSubscription = null;
+  socket = null;
   async componentDidMount() {
     setTimeout(this.toggleView, 100);
-    // this.electionSocket = await ElectionSocket(
-    //   this.props.election.blockchainAddress
-    // );
-
-    // this.newVoterSubscription = await this.electionSocket.events.VoterLog(
-    //   {},
-    //   (err, event) => {
-    //     if (err) console.log(err);
-    //     else {
-    //       console.log(event);
-    //       toast.info('New Voter', {
-    //         position: toast.POSITION.TOP_RIGHT
-    //       });
-    //     }
-    //   }
-    // );
-
-    // this.newVoterSubscription.on('data', function(event) {
-    //   console.log('From event', event);
-    // });
-
-    // console.log(this.newVoterSubscription);
+    this.socket = io('https://socket.dwikyerl.me');
+    this.socket.on('newVote', data => {
+      const electionId = this.props.election.id;
+      const communityId = this.props.community.id;
+      console.log(electionId, communityId);
+      this.props.fetchElection({ electionId, communityId });
+    });
   }
 
   onAddVoter = async (userId, blockchainAddress) => {
@@ -162,7 +148,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchElection: (electionId, communityId) =>
+    fetchElection: ({ electionId, communityId }) =>
       dispatch(fetchElection({ electionId, communityId })),
     onAddVoterToBlockchain: (userId, userBlockchainAddress) =>
       dispatch(addVoter(userId, userBlockchainAddress))

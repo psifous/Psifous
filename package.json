@@ -49,6 +49,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.82.1",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1",
     "solc": "^0.4.24",
     "style-loader": "^0.21.0",
     "truffle-hdwallet-provider": "0.0.5",

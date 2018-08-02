@@ -25,6 +25,13 @@ const adminPath = [
   '/dashboard/elections/show/candidates/add'
 ];
 
+const userPath = [
+  '/home',
+  '/home/communities',
+  '/home/communities/election',
+  '/home/communities/election/vote-booth'
+];
+
 class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
@@ -50,17 +57,24 @@ class MyApp extends App {
       //don't do anything if we are on a page that doesn't require credentials
       if (nonAuthenticatedPath.includes(ctx.pathname)) return { pageProps };
       //if we are on any other page, redirect to the login page
-      return redirectTo('/login', { res: ctx.res, status: 301 });
+      else if (
+        adminPath.includes(ctx.pathname) ||
+        userPath.includes(ctx.pathname)
+      ) {
+        return redirectTo('/login', { res: ctx.res, status: 301 });
+      }
     } else {
       const isAdmin = ctx.reduxStore.getState().auth.isAdmin;
       if (nonAuthenticatedPath.includes(ctx.pathname)) {
         if (isAdmin) {
-          redirectTo('/dashboard', { res: ctx.res, status: 301 });
+          return redirectTo('/dashboard', { res: ctx.res, status: 301 });
         } else {
-          redirectTo('/home', { res: ctx.res, status: 301 });
+          return redirectTo('/home', { res: ctx.res, status: 301 });
         }
       } else if (adminPath.includes(ctx.pathname) && !isAdmin) {
-        redirectTo('/home', { res: ctx.res, status: 301 });
+        return redirectTo('/home', { res: ctx.res, status: 301 });
+      } else if (userPath.includes(ctx.pathname) && isAdmin) {
+        return redirectTo('/dashboard', { res: ctx.res, status: 301 });
       }
     }
 
